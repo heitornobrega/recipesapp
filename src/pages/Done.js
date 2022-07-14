@@ -1,9 +1,9 @@
 import React from 'react';
 
-function Done() {
+function Favorite() {
   return (
-    <div>Done</div>
+    <div>Favorite</div>
   );
 }
 
-export default Done;
+export default Favorite;
