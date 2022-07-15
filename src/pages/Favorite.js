@@ -1,9 +1,10 @@
 import React from 'react';
+import Header from '../components/Header';
 
-function Profile() {
+function Favorite() {
   return (
-    <div>Profile</div>
+    <Header title="Favorite Recipes" isTrue={ false } />
   );
 }
 
-export default Profile;
+export default Favorite;
