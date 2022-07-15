@@ -2,11 +2,13 @@ import React from "react";
 import {render, screen, } from '@testing-library/react'
 import App from '../App'
 import userEvent from '@testing-library/user-event';
-import {createMemoryHistory} from 'history'
+import { createMemoryHistory } from 'history'
+import renderWithRouter from './helpers/renderWithRouter';
+
 
 describe('Login',()=> {
-  test('', () => {
-  render(<App/>)
+  test('Testa componentes Login e rota foods', () => {
+  renderWithRouter(<App/>)
   const history = createMemoryHistory()
   const bntSubmit = screen.getByTestId('login-submit-btn')
   const inputPass = screen.getByTestId('password-input')
