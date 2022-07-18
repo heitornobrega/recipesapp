@@ -35,7 +35,7 @@ function Provider({ children }) {
   }, []);
 
   useEffect(() => {
-    const FIRST_RECIPIES = 13;
+    const FIRST_RECIPIES = 12;
     const fetchDrink = async () => {
       const { drinks } = await fetchDrinkMounth();
       if (drinks) {
