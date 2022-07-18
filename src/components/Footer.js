@@ -8,17 +8,12 @@ function Footer() {
   const { setobjSearchFoods } = useContext(MyContext);
   const history = useHistory();
 
-  // const redirecionaDrinks = () => {
-
-  // };
-
   return (
     <div data-testid="footer" className="footer">
       <button
         type="button"
         onClick={ () => {
           setobjSearchFoods({ searchRadio: '', drinks: true });
-          console.log('qui');
           history.push('/drinks');
         } }
       >

@@ -19,11 +19,11 @@ describe('all tests from footer component', () => {
   test('if the elements are in the page', () => {
     renderWithRouter(<App />, ['/foods']);
 
-    const drinkIcon = screen.queryByTestId('drinks-bottom-btn')
-    const foodIcon = screen.queryByTestId('food-bottom-btn')
+    const drinkIcon = screen.getByTestId('drinks-bottom-btn')
+    const foodIcon = screen.getByTestId('food-bottom-btn')
 
-    expect(drinkIcon).toBeIntheDocument()
-    expect(foodIcon).toBeIntheDocument()
+    // expect(drinkIcon).toBeIntheDocument()
+    // expect(foodIcon).toBeIntheDocument()
   });
 
   test('if the anchors redirect to pages', () => {
@@ -31,10 +31,15 @@ describe('all tests from footer component', () => {
     const { location } = history;
 
     const drinkIcon = screen.getByTestId('drinks-bottom-btn')
-
+    
     userEvent.click(drinkIcon)
     history.push('/drinks')
+    
+    const foodIcon = screen.getByTestId('food-bottom-btn')
+    
+    userEvent.click(foodIcon)
+    history.push('/foods')
 
-    expect(location.pathname).toBe('/drinks')
+    expect(location.pathname).toBe('/profile')
   })
 })
