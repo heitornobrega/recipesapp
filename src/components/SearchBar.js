@@ -1,17 +1,32 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import PropTypes from 'prop-types';
+import Mycontext from '../Context/MyContext';
 
-function SearchBar() {
+function SearchBar({ foods, drinks }) {
+  const { handleSearchFoods } = useContext(Mycontext);
+
+  const [searchFoods, setsearchFoods] = useState('');
+  const [searchRadio, setsearchRadio] = useState('');
+
   return (
     <form>
       <label htmlFor="searchInput">
-        <input type="text" data-testid="search-input" id="searchInput" />
+        <input
+          type="text"
+          data-testid="search-input"
+          id="searchInput"
+          name="searchInput"
+          onChange={ (e) => setsearchFoods(e.target.value) }
+        />
       </label>
       <label htmlFor="ingredients">
         <input
           type="radio"
           name="filter"
           id="ingredients"
+          value="ingredients"
           data-testid="ingredient-search-radio"
+          onChange={ (e) => setsearchRadio(e.target.value) }
         />
         Ingredient
       </label>
@@ -20,7 +35,9 @@ function SearchBar() {
           type="radio"
           name="filter"
           id="name"
+          value="name"
           data-testid="name-search-radio"
+          onChange={ (e) => setsearchRadio(e.target.value) }
         />
         Name
       </label>
@@ -29,13 +46,30 @@ function SearchBar() {
           type="radio"
           name="filter"
           id="firstLetter"
+          value="firstLetter"
           data-testid="first-letter-search-radio"
+          onChange={ (e) => setsearchRadio(e.target.value) }
         />
         First letter
       </label>
-      <button type="button" data-testid="exec-search-btn">Search</button>
+      <button
+        type="button"
+        data-testid="exec-search-btn"
+        onClick={ () => handleSearchFoods({ searchFoods,
+          searchRadio,
+          foods,
+          drinks }) }
+      >
+        Search
+
+      </button>
     </form>
   );
 }
+
+SearchBar.propTypes = {
+  foods: PropTypes.bool.isRequired,
+  drinks: PropTypes.bool.isRequired,
+};
 
 export default SearchBar;

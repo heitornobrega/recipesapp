@@ -5,7 +5,7 @@ import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 
-function Header({ title, isTrue }) {
+function Header({ title, isTrue, foods, drinks }) {
   const [displayMenu, setDisplayMenu] = useState(false);
   return (
     <header>
@@ -18,13 +18,21 @@ function Header({ title, isTrue }) {
           <img src={ searchIcon } alt="search" data-testid="search-top-btn" />
         </button>
       )}
-      {displayMenu && <SearchBar />}
+      {displayMenu && <SearchBar foods={ foods } drinks={ drinks } />}
     </header>
   );
 }
+
 Header.propTypes = {
   title: PropTypes.string.isRequired,
   isTrue: PropTypes.bool.isRequired,
+  foods: PropTypes.bool,
+  drinks: PropTypes.bool,
+};
+
+Header.defaultProps = {
+  foods: null,
+  drinks: null,
 };
 
 export default Header;

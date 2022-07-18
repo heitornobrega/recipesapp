@@ -3,7 +3,7 @@ import Mycontext from '../Context/MyContext';
 
 function Login() {
   const { handleSubmit } = useContext(Mycontext);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({ email: '', password: '' });
   const [disable, setDisable] = useState(true);
 
   const verifica = () => {
@@ -19,7 +19,7 @@ function Login() {
 
   useEffect(() => {
     verifica();
-  }, [user.password]);
+  }, [user.password, user.email]);
 
   const handleChange = ({ target: { value, name } }) => {
     setUser({

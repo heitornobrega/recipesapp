@@ -21,15 +21,15 @@ function App() {
     <Provider>
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route path="/foods/:id/in-progress" component={ FoodInProgress } />
-        <Route path="/foods/:id" component={ DetailsFood } />
-        <Route path="/foods" component={ Foods } />
-        <Route path="/drinks/:id/in-progress" component={ DrinkInProgress } />
-        <Route path="/drinks/:id" component={ DrinksDetails } />
-        <Route path="/drinks" component={ Drinks } />
-        <Route path="/profile" component={ Profile } />
-        <Route path="/done-recipes" component={ Done } />
-        <Route path="/favorite-recipes" component={ Favorite } />
+        <Route exact path="/foods/:id/in-progress" component={ FoodInProgress } />
+        <Route exact path="/foods/:id" component={ DetailsFood } />
+        <Route exact path="/foods" component={ Foods } />
+        <Route exact path="/drinks/:id/in-progress" component={ DrinkInProgress } />
+        <Route exact path="/drinks/:id" component={ DrinksDetails } />
+        <Route exact path="/drinks" component={ Drinks } />
+        <Route exact path="/profile" component={ Profile } />
+        <Route exact path="/done-recipes" component={ Done } />
+        <Route exact path="/favorite-recipes" component={ Favorite } />
       </Switch>
     </Provider>
   );
