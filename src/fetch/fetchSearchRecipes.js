@@ -62,4 +62,17 @@ export const fetchDrinkMounth = async () => {
   return json;
 };
 
+export const fetchFoodsId = async (id) => {
+  const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+  const response = await fetch(url);
+  const json = await response.json();
+  return json;
+};
+export const fetchDrinksId = async (id) => {
+  const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+  const response = await fetch(url);
+  const json = await response.json();
+  return json;
+};
+
 export default fetchSearchRecipes;

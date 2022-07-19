@@ -15,3 +15,19 @@ code {
 .recipiesImg{
   width: 150px;
 }
+
+.recipeDetails img{
+  width: 150px;
+}
+
+.carousell{
+  display: flex;
+  width: 295px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.bntStartRecipe{
+  position: fixed;
+  bottom: 0;
+}
