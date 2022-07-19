@@ -12,6 +12,7 @@ function Provider({ children }) {
   const [dataFoods, setDataFoods] = useState([]);
   const [dataDrinks, setDataDrinks] = useState([]);
   const [alert, setAlert] = useState(false);
+  // const [foodsAreLoaded, setFoodsAreLoaded] = useState(false);
   const history = useHistory();
 
   const handleSubmit = (users) => {
@@ -81,6 +82,8 @@ function Provider({ children }) {
     }
   };
   const context = {
+    // foodsAreLoaded,
+    // setFoodsAreLoaded,
     handleSubmit,
     user,
     handleSearchFoods,
