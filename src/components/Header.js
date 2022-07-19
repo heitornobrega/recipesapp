@@ -19,9 +19,13 @@ function Header({ title, isTrue, foods, drinks }) {
           <img src={ searchIcon } alt="search" data-testid="search-top-btn" />
         </button>
       )}
-      {displayMenu
+      {
+        (foods || drinks)
+      && (displayMenu
         ? (<SearchBar foods={ foods } drinks={ drinks } />)
-        : (<CategoryPanel foods={ foods } drinks={ drinks } />)}
+        : (<CategoryPanel foods={ foods } drinks={ drinks } />)
+      )
+      }
     </header>
   );
 }

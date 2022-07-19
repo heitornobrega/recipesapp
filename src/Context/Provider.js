@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import Mycontext from './MyContext';
 import fetchSearchRecipes,
-{ fetchMealsMounth, fetchDrinkMounth } from '../fetch/fetchSearchRecipes';
+{
+  fetchMealsMounth,
+  fetchDrinkMounth, fetchByCategory,
+} from '../fetch/fetchSearchRecipes';
 
 function Provider({ children }) {
+  const location = useLocation();
   const [user, setUser] = useState();
   const [objSearchFoods, setobjSearchFoods] = useState({});
   const [dataSeachFoods, setdataSeachFoods] = useState([]);
   const [dataFoods, setDataFoods] = useState([]);
   const [dataDrinks, setDataDrinks] = useState([]);
   const [alert, setAlert] = useState(false);
+  const [filterByCategory, setFilterByCategory] = useState({});
+  // const [filteredData, setFilteredData] = useState({});
   // const [foodsAreLoaded, setFoodsAreLoaded] = useState(false);
   const history = useHistory();
 
@@ -19,7 +25,7 @@ function Provider({ children }) {
     localStorage.setItem('user', JSON.stringify({ email: users.email }));
     localStorage.setItem('mealsToken', '1');
     localStorage.setItem('cocktailsToken', '1');
-    setUser(users);
+    setUser(users.email);
     history.push('/foods');
   };
 
@@ -32,7 +38,9 @@ function Provider({ children }) {
         setDataFoods(firstTwelveRecipes);
       }
     };
-    fetchMeals();
+    if (location.pathname.includes('foods')) {
+      fetchMeals();
+    }
   }, []);
 
   useEffect(() => {
@@ -44,8 +52,38 @@ function Provider({ children }) {
         setDataDrinks(firstTwelveRecipes);
       }
     };
-    fetchDrink();
+    if (location.pathname.includes('drinks')) {
+      fetchDrink();
+    }
   }, []);
+
+  useEffect(() => {
+    const { onDrinks, onFoods, value } = filterByCategory;
+    const FIRST_RECIPIES = 12;
+    const fillData = async () => { // Essa funcao filtra os dados pelos botoes de categoria
+      if (onFoods && value !== 'All') {
+        const { meals } = await fetchByCategory(filterByCategory);
+        const firstTwelveRecipes = meals.slice(0, FIRST_RECIPIES);
+        setDataFoods(firstTwelveRecipes);
+      }
+      if (onDrinks && value !== 'All') {
+        const { drinks } = await fetchByCategory(filterByCategory);
+        const firstTwelveRecipes = drinks.slice(0, FIRST_RECIPIES);
+        setDataDrinks(firstTwelveRecipes);
+      }
+      if (onFoods && value === 'All') {
+        const { meals } = await fetchMealsMounth();
+        const firstTwelveRecipes = meals.slice(0, FIRST_RECIPIES);
+        setDataFoods(firstTwelveRecipes);
+      }
+      if (onDrinks && value === 'All') {
+        const { drinks } = await fetchDrinkMounth();
+        const firstTwelveRecipes = drinks.slice(0, FIRST_RECIPIES);
+        setDataDrinks(firstTwelveRecipes);
+      }
+    };
+    fillData();
+  }, [filterByCategory]);
 
   const fetchApi = async (obj) => {
     const FIRST_RECIPIES = 12;
@@ -84,6 +122,7 @@ function Provider({ children }) {
   const context = {
     // foodsAreLoaded,
     // setFoodsAreLoaded,
+    // filteredData,
     handleSubmit,
     user,
     handleSearchFoods,
@@ -96,6 +135,7 @@ function Provider({ children }) {
     setDataFoods,
     dataDrinks,
     setDataDrinks,
+    setFilterByCategory,
   };
 
   return (

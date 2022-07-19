@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Mycontext from '../Context/MyContext';
@@ -13,15 +14,15 @@ function Drinks() {
       {alert
         ? global.alert('Your search must have only 1 (one) character') : (
           dataDrinks.length && dataDrinks.map((element, idx) => (
-            <div
-              key={ element.idDrink + idx }
-            >
-              <RecipieCard
-                idx={ idx }
-                recipeName={ element.strDrink }
-                strMealThumb={ element.strDrinkThumb }
-              />
-            </div>
+            <Link key={ element.idDrink + idx } to={ `/drinks/${element.idDrink}` }>
+              <div>
+                <RecipieCard
+                  idx={ idx }
+                  recipeName={ element.strDrink }
+                  strMealThumb={ element.strDrinkThumb }
+                />
+              </div>
+            </Link>
           ))
         ) }
       <Footer />

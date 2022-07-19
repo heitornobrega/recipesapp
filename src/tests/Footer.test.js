@@ -27,7 +27,7 @@ describe('all tests from footer component', () => {
   });
 
   test('if the anchors redirect to pages', () => {
-    const { history } = renderWithRouter(<App />, ['/profile']);
+    const { history } = renderWithRouter(<App />, ['/foods']);
     const { location } = history;
 
     const drinkIcon = screen.getByTestId('drinks-bottom-btn')
@@ -40,6 +40,6 @@ describe('all tests from footer component', () => {
     userEvent.click(foodIcon)
     history.push('/foods')
 
-    expect(location.pathname).toBe('/profile')
+    expect(location.pathname).toBe('/foods')
   })
 })
