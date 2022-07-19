@@ -6,7 +6,6 @@ import RecipieCard from '../components/RecipieCard';
 
 function Foods() {
   const { alert, dataFoods } = useContext(Mycontext);
-
   return (
     <>
       <Header title="Foods" isTrue foods />

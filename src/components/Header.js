@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
+import CategoryPanel from './CategoryPanel';
 
 function Header({ title, isTrue, foods, drinks }) {
   const [displayMenu, setDisplayMenu] = useState(false);
@@ -18,7 +19,9 @@ function Header({ title, isTrue, foods, drinks }) {
           <img src={ searchIcon } alt="search" data-testid="search-top-btn" />
         </button>
       )}
-      {displayMenu && <SearchBar foods={ foods } drinks={ drinks } />}
+      {displayMenu
+        ? (<SearchBar foods={ foods } drinks={ drinks } />)
+        : (<CategoryPanel foods={ foods } drinks={ drinks } />)}
     </header>
   );
 }
