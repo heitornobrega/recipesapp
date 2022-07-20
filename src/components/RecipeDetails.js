@@ -1,25 +1,61 @@
 import React, { useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import copy from 'clipboard-copy';
 import { fetchDrinkMounth, fetchDrinksId,
   fetchFoodsId, fetchMealsMounth } from '../fetch/fetchSearchRecipes';
-// import Mycontext from '../Context/MyContext';
+import shareIcon from '../images/shareIcon.svg';
+import { saveLocalStorage,
+  removeLocalStorage, pegarLocalStorage } from '../fetch/localStorageFunc';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function RecipeDetails({ id, location }) {
-  // const { dataFoods, dataDrinks } = useContext(Mycontext);
+  const history = useHistory();
+  const [favorite, setFavorite] = useState(false);
+  const [LinkCopied, setLinkCopied] = useState(false);
   const [drinkOuFoods, setDrinkOuFoods] = useState([]);
-  // const [mealsOrDrinks, setMealsOrDrinks] = useState('');
   const [ingredients, setIngredients] = useState([]);
   const [recomendacoes, setRecomendacoes] = useState([]);
+  const [receitaProgress, setReceitaProgress] = useState(false);
+
+  const recipeProgressDrink = (array, ideLocal) => {
+    const lista = JSON.parse(localStorage.getItem('cocktails'));
+    if (lista && lista[ideLocal]) {
+      const receitaPronta = array.every((e) => e.ingrediente.includes(lista[ideLocal]));
+      if (receitaPronta) {
+        setReceitaProgress(false);
+      } else {
+        setReceitaProgress(true);
+      }
+    }
+  };
+
+  const recipeProgressFood = (array, ideLocal) => {
+    const lista = JSON.parse(localStorage.getItem('meals'));
+    if (lista && lista[ideLocal]) {
+      const receitaPronta = array.every((e) => e.ingrediente.includes(lista[ideLocal]));
+      if (receitaPronta) {
+        setReceitaProgress(false);
+      } else {
+        setReceitaProgress(true);
+      }
+    }
+  };
+
+  const isChecked = (ide) => {
+    const isFavorite = pegarLocalStorage();
+    if (isFavorite) {
+      setFavorite(isFavorite.some((elemento) => elemento.id === ide));
+    }
+  };
 
   const fetchId = async (idFood) => {
     const vinte = 20;
     const seis = 6;
     if (location.pathname === `/drinks/${id}`) {
       const drink = await fetchDrinksId(idFood);
-
       const newArray = [];
-
       for (let count = 1; count <= vinte; count += 1) {
         if (drink.drinks[0][`strIngredient${count}`]) {
           newArray.push({
@@ -31,12 +67,10 @@ function RecipeDetails({ id, location }) {
 
       const { meals } = await fetchMealsMounth();
       const foods = meals.slice(0, seis);
-      console.log(foods);
-      // setMealsOrDrinks('Drink');
       setRecomendacoes(foods);
       setIngredients(newArray);
-      console.log(drink.drinks);
       setDrinkOuFoods(drink.drinks);
+      recipeProgressDrink(newArray, id);
     }
     if (location.pathname === `/foods/${id}`) {
       const food = await fetchFoodsId(idFood);
@@ -54,14 +88,40 @@ function RecipeDetails({ id, location }) {
       const { drinks } = await fetchDrinkMounth();
       const drinksSlice = drinks.slice(0, seis);
       setRecomendacoes(drinksSlice);
-      // setMealsOrDrinks('Food');
       setIngredients(newArray);
       setDrinkOuFoods(food.meals);
+      recipeProgressFood(newArray, id);
+    }
+    isChecked(id);
+  };
+
+  const favoritaReceita = (/* { target: { checked } } */) => {
+    setFavorite(!favorite);
+    if (!favorite) {
+      saveLocalStorage(drinkOuFoods);
+    }
+    if (favorite) {
+      removeLocalStorage(id);
+    }
+  };
+
+  const compartilhar = () => {
+    copy(`http://localhost:3000${location.pathname}`);
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), Number('1000'));
+  };
+
+  const redirecionaParaInPrograss = () => {
+    if (location.pathname === `/drinks/${id}`) {
+      history.push(`/drinks/${id}/in-progress`);
+    } else {
+      history.push(`/foods/${id}/in-progress`);
     }
   };
 
   useEffect(() => {
     fetchId(id);
+    // isChecked(id);
   }, []);
 
   return (
@@ -81,6 +141,26 @@ function RecipeDetails({ id, location }) {
           || elemento.strCategory}
 
           </div>
+          <label htmlFor="favorite">
+            <input
+              type="image"
+              src={ favorite ? blackHeartIcon : whiteHeartIcon }
+              alt="favorite"
+              name="favorite"
+              id="favorite"
+              onClick={ favoritaReceita }
+              data-testid="favorite-btn"
+            />
+          </label>
+          <input
+            data-testid="share-btn"
+            type="image"
+            onClick={ compartilhar }
+            src={ shareIcon }
+            alt={ shareIcon }
+
+          />
+          { LinkCopied && <span>Link copied!</span>}
           <ul>
             <h3>ingredientes</h3>
             {ingredients.map((e, i) => (
@@ -136,8 +216,9 @@ function RecipeDetails({ id, location }) {
             className="bntStartRecipe"
             data-testid="start-recipe-btn"
             type="button"
+            onClick={ redirecionaParaInPrograss }
           >
-            Start Recipe
+            {receitaProgress ? 'Start Recipe' : 'Continue Recipe' }
 
           </button>
         </>

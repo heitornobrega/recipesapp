@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import MyContext from '../Context/MyContext';
 
 function CategoryPanel({ foods: onFoods, drinks: onDrinks }) {
+  const { setFilterByCategory } = useContext(MyContext);
   const [categoryData, setCategoryData] = useState([]);
+  const [actualValue, setActualValue] = useState([]);
 
   const fetchCategories = async () => {
     if (onFoods) {
@@ -21,13 +24,36 @@ function CategoryPanel({ foods: onFoods, drinks: onDrinks }) {
   const FIRSTS_CATEGORY = 5;
   const firstFiveRecipes = categoryData && categoryData.slice(0, FIRSTS_CATEGORY);
 
+  // se o novo value for igual o passado o novo value deve ser All
   return (
     <div>
+      <button
+        type="button"
+        value="All"
+        onClick={ ({ target }) => {
+          const { value } = target;
+          setFilterByCategory({
+            onFoods, onDrinks, value,
+          });
+        } }
+        data-testid="All-category-filter"
+      >
+        All
+      </button>
       {firstFiveRecipes && firstFiveRecipes.map((element, idx) => (
         <button
+          value={ element.strCategory === actualValue ? 'All' : element.strCategory }
           type="button"
           key={ idx }
           data-testid={ `${element.strCategory}-category-filter` }
+          onClick={ (event) => {
+            const { target } = event;
+            const { value } = target;
+            setFilterByCategory({
+              onFoods, onDrinks, value,
+            });
+            setActualValue(value);
+          } }
         >
           {element.strCategory}
         </button>))}

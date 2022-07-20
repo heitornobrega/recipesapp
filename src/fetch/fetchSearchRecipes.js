@@ -72,7 +72,40 @@ export const fetchDrinksId = async (id) => {
   const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
   const response = await fetch(url);
   const json = await response.json();
+  console.log('dentro da funcao', json);
   return json;
+};
+
+export const fetchByCategory = async (category) => {
+  const { onFoods, onDrinks, value } = category;
+  // if (onFoods && value === 'All') {
+  //   const url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${value}`;
+  //   const response = await fetch(url);
+  //   const json = await response.json();
+  //   return json;
+  //   console.log('poze');
+  // }
+  if (onFoods && value !== 'All') {
+    const url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${value}`;
+    const response = await fetch(url);
+    const json = await response.json();
+    console.log(json);
+    return json;
+  }
+  // if (onDrinks && value === 'All') {
+  //   const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${value}`;
+  //   const response = await fetch(url);
+  //   const json = await response.json();
+  //   return json;
+  //   console.log('poze 2');
+  // }
+  if (onDrinks && value !== 'All') {
+    const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${value}`;
+    const response = await fetch(url);
+    const json = await response.json();
+    console.log(json);
+    return json;
+  }
 };
 
 export default fetchSearchRecipes;
