@@ -1,4 +1,5 @@
-const f = [
+const f = { 
+    'meals': [
   {
       "idMeal": "52802",
       "strMeal": "Fish pie",
@@ -660,6 +661,7 @@ const f = [
       "dateModified": null
   }
 ]
+}
 
 
 export default f

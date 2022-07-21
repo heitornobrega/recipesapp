@@ -1,13 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import MyContext from '../Context/MyContext';
+// import MyContext from '../Context/MyContext';
 
 function Profile() {
-  const { user } = useContext(MyContext);
-  // const {email} = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : ;
-  // // const { email } = user;
+  const [userEmail] = useState(localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')) : { email: '' });
   const history = useHistory();
 
   const handleClick = (location = '') => {
@@ -18,7 +17,7 @@ function Profile() {
     <>
       <Header title="Profile" isTrue={ false } />
       <div>
-        <h3 data-testid="profile-email">{`email: ${user}` || 'email: '}</h3>
+        <h3 data-testid="profile-email">{`email: ${userEmail.email}`}</h3>
         <button
           data-testid="profile-done-btn"
           type="button"
@@ -37,12 +36,12 @@ function Profile() {
           data-testid="profile-logout-btn"
           type="button"
           onClick={ () => {
-            localStorage.setItem('mealsToken', '');
-            localStorage.setItem('cocktailsToken', '');
-            localStorage.setItem('doneRecipes', []);
-            localStorage.setItem('favoriteRecipes', []);
-            localStorage.setItem('inProgressRecipes', []);
-            localStorage.setItem('user', '');
+            localStorage.removeItem('mealsToken');
+            localStorage.removeItem('cocktailsToken');
+            localStorage.removeItem('doneRecipes');
+            localStorage.removeItem('favoriteRecipes');
+            localStorage.removeItem('inProgressRecipes');
+            localStorage.removeItem('user');
             handleClick();
           } }
         >

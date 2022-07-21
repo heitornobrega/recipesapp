@@ -31,3 +31,11 @@ code {
   position: fixed;
   bottom: 0;
 }
+
+.imgMenor{
+  width: 150px;
+}
+.ingredientsList{
+  display: flex;
+  flex-direction: column;
+}

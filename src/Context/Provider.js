@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory /* useLocation */ } from 'react-router-dom';
 import Mycontext from './MyContext';
 import fetchSearchRecipes,
 {
@@ -9,7 +9,7 @@ import fetchSearchRecipes,
 } from '../fetch/fetchSearchRecipes';
 
 function Provider({ children }) {
-  const location = useLocation();
+  // const location = useLocation();
   const [user, setUser] = useState();
   const [objSearchFoods, setobjSearchFoods] = useState({});
   const [dataSeachFoods, setdataSeachFoods] = useState([]);
@@ -38,9 +38,9 @@ function Provider({ children }) {
         setDataFoods(firstTwelveRecipes);
       }
     };
-    if (location.pathname.includes('foods')) {
-      fetchMeals();
-    }
+    // if (location.pathname.includes('foods')) {
+    fetchMeals();
+    // }
   }, []);
 
   useEffect(() => {
@@ -52,10 +52,12 @@ function Provider({ children }) {
         setDataDrinks(firstTwelveRecipes);
       }
     };
-    if (location.pathname.includes('drinks')) {
-      fetchDrink();
-    }
+    // if (location.pathname.includes('drinks')) {
+    fetchDrink();
+    // }
   }, []);
+
+  ///
 
   useEffect(() => {
     const { onDrinks, onFoods, value } = filterByCategory;

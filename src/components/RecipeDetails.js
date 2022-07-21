@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import copy from 'clipboard-copy';
@@ -127,7 +127,7 @@ function RecipeDetails({ id, location }) {
   return (
     <section className="recipeDetails">
       {drinkOuFoods.length > 0 && drinkOuFoods.map((elemento) => (
-        <>
+        <Fragment key={ `${elemento.strDrinkThumb}fragment` }>
           <div>
             <img
               data-testid="recipe-photo"
@@ -221,7 +221,7 @@ function RecipeDetails({ id, location }) {
             {receitaProgress ? 'Start Recipe' : 'Continue Recipe' }
 
           </button>
-        </>
+        </Fragment>
       ))}
     </section>
   );
