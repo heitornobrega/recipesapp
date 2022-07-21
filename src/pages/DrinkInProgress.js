@@ -25,13 +25,29 @@ function DrinkInProgress() {
       return acc;
     }, []);
     setValidIngredients(ingredients);
-    ingredientsUnChecked(ingredients);
   };
 
   const toggleIgredient = ({ target: { value } }) => {
     if (ingredientsChecked.includes(value)) {
+      const ingredientCheckedIndex = ingredientsChecked.indexOf(value);
+      setIngredientsChecked(
+        [
+          ...ingredientsChecked.slice(ingredientCheckedIndex),
+          ...ingredientsChecked
+            .slice(ingredientCheckedIndex + 1, ingredientsChecked.length),
+        ],
+      );
+
       setIngredientsUnChecked([...ingredientsUnChecked, value]);
     } else {
+      const ingredientUnCheckedIndex = ingredientsUnChecked.indexOf(value);
+      setIngredientsUnChecked(
+        [
+          ...ingredientsUnChecked.slice(ingredientUnCheckedIndex),
+          ...ingredientUnCheckedIndex.slice(ingredientUnCheckedIndex + 1,
+            ingredientUnCheckedIndex.length),
+        ],
+      );
       setIngredientsChecked([...ingredientsChecked, value]);
     }
   };
@@ -88,6 +104,7 @@ function DrinkInProgress() {
                 {validIngredients.map((ingredient, idx) => (
                   <label key={ ingredient } id={ ingredient } htmlFor={ ingredient }>
                     <input
+                      className={ isChecked }
                       onChange={ (e) => toggleIgredient(e) }
                       value={ ingredient }
                       type="checkbox"
