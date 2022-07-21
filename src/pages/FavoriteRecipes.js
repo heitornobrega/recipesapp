@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
+import CardDFavoriteRecipes from '../components/CardDFavoriteRecipes';
 import Header from '../components/Header';
-import CardDoneRecipe from '../components/CardDoneRecipe';
 
-function DoneRecipes() {
+function Favorite() {
   const [filterBtn, setFilterBtn] = useState('all');
-  const [doneRecipes] = useState(localStorage.getItem('doneRecipes')
-    ? JSON.parse(localStorage.getItem('doneRecipes')) : []);
-  // const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+  const [favoriteList,
+    setFavoriteList] = useState(localStorage.getItem('favoriteRecipes')
+    ? JSON.parse(localStorage.getItem('favoriteRecipes')) : []);
 
   const getArrayRecipes = () => {
-    if (doneRecipes.length === 0 || doneRecipes === null) {
+    if (favoriteList.length === 0 || favoriteList === null) {
       return <p>Nenhuma receita!</p>;
     }
     if (filterBtn === 'all') {
-      return (doneRecipes.map((element, index) => (
-        <CardDoneRecipe
+      return (favoriteList.map((element, index) => (
+        <CardDFavoriteRecipes
           key={ element.id }
           index={ index }
           id={ element.id }
@@ -26,12 +26,15 @@ function DoneRecipes() {
           image={ element.image }
           doneDate={ element.doneDate }
           tags={ element.tags }
+          fav={ favoriteList }
+          setFavoriteList={ setFavoriteList }
         />
       )));
     }
-    return (doneRecipes.filter((element) => element.type === filterBtn)
+
+    return (favoriteList.filter((element) => element.type === filterBtn)
       .map((element, i) => (
-        <CardDoneRecipe
+        <CardDFavoriteRecipes
           key={ element.id }
           index={ i }
           id={ element.id }
@@ -43,13 +46,15 @@ function DoneRecipes() {
           image={ element.image }
           doneDate={ element.doneDate }
           tags={ element.tags }
+          fav={ favoriteList }
+          setFavoriteList={ setFavoriteList }
         />
       )));
   };
 
   return (
     <>
-      <Header title="Done Recipes" isTrue={ false } />
+      <Header title="Favorite Recipes" isTrue={ false } />
       <button
         type="button"
         data-testid="filter-by-all-btn"
@@ -75,7 +80,8 @@ function DoneRecipes() {
         { getArrayRecipes() }
       </div>
     </>
+
   );
 }
 
-export default DoneRecipes;
+export default Favorite;

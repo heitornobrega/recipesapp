@@ -3,10 +3,11 @@ import { screen } from "@testing-library/react";
 import App from "../App";
 import userEvent from "@testing-library/user-event";
 import renderWithRouter from "./helpers/renderWithRouter";
-import aquamarine from './mocks/mockDrinkIdAquamarine'
-import {fetchDrinksId} from '../fetch/fetchSearchRecipes'
+// import aquamarine from './mocks/mockDrinkIdAquamarine'
+// import {fetchDrinksId} from '../fetch/fetchSearchRecipes'
 import mockFetch from '../../cypress/mocks/fetch'
-import arrabiata from './mocks/mockMealSpicyArrabiata'
+import { string } from "prop-types";
+// import arrabiata from './mocks/mockMealSpicyArrabiata'
 
 const mockLocal = [
   {
@@ -20,9 +21,22 @@ const mockLocal = [
   }
 ]
 
+const mockLocalDrink = [
+  {
+    'id': '178319',
+    'type': 'drink',
+    'nationality': '',
+    'category': 'Cocktail',
+    'alcoholicOrNot': 'Alcoholic',
+    'name': 'Aquamarine',
+    'image': 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
+    
+  }
+]
+
 describe('testando componenteDetail', () => {
 
-  test('testando a pagina drinks com id 178319', async () => {
+  test('testando a pagina drinks com id 178319 o botao start recipe', async () => {
     const {history} = renderWithRouter(<App />, ['/drinks/178319']);
     jest.spyOn(global, "fetch").mockImplementation(mockFetch)
       // jest.spyOn(global, "fetch").mockImplementation((url) =>
@@ -54,6 +68,7 @@ describe('testando componenteDetail', () => {
     userEvent.click(startRecipe)
     expect(history.location.pathname).toBe('/drinks/178319/in-progress')
   });
+
   test('testando a pagina foods com id 52771', async () => {
     const {history} = renderWithRouter(<App />, ['/foods/52771']);
     jest.spyOn(global, "fetch").mockImplementation(mockFetch)   
@@ -75,7 +90,9 @@ describe('testando componenteDetail', () => {
     expect(intrucao).toBeInTheDocument()
     expect(allImg).toHaveLength(7)
   });
+
   test('testando a pagina foods com id 52771', async () => {
+    localStorage.clear()
     const {history} = renderWithRouter(<App />, ['/foods/52771']);
     jest.spyOn(global, "fetch").mockImplementation(mockFetch)   
 
@@ -91,19 +108,64 @@ describe('testando componenteDetail', () => {
     // userEvent.click(inputCompartilhar)
     // expect(screen.getByText(/Link Codied/))
   });
-  // test('testando se ao renderizar a pagina ja esta favoritado', async () => {
-  //   const {history} = renderWithRouter(<App />, ['/foods/52771']);
-  //   localStorage.setItem('favoriteRecipes', mockLocal)
-  //   jest.spyOn(global, "fetch").mockImplementation(mockFetch)   
 
-  //   const inputFavorite = await screen.findByTestId('favorite-btn')
-   
-  //   userEvent.click(inputFavorite)
-  //   expect(inputFavorite).toHaveProperty('src', "http://localhost/blackHeartIcon.svg")
+  test('testando se ao renderizar a pagina ja esta favoritado', async () => {
+    const {history} = renderWithRouter(<App />, ['/foods/52771']);
+   localStorage.setItem('favoriteRecipes', JSON.stringify(mockLocal))
+    jest.spyOn(global, "fetch").mockImplementation(mockFetch)   
 
-  //   // userEvent.click(inputCompartilhar)
-  //   // expect(screen.getByText(/Link Codied/))
-  // });
+    const inputFavorite = await screen.findByTestId('favorite-btn')
+    expect(inputFavorite).toHaveProperty('src', "http://localhost/blackHeartIcon.svg")
+    userEvent.click(inputFavorite)
+    expect(inputFavorite).toHaveProperty('src', "http://localhost/whiteHeartIcon.svg")
+    const recebeLocalStorage =  localStorage.getItem('favoriteRecipes')    
+    expect(recebeLocalStorage).toEqual('[]')
+  });
+
+  
+  test('testando a função de favoritar uma bebida', async () => {
+    const {history} = renderWithRouter(<App />, ['/drinks/178319']);
+   localStorage.setItem('favoriteRecipes', JSON.stringify(mockLocal))
+    jest.spyOn(global, "fetch").mockImplementation(mockFetch)   
+
+    const inputFavorite = await screen.findByTestId('favorite-btn')
+    expect(inputFavorite).toHaveProperty('src', "http://localhost/whiteHeartIcon.svg")
+    userEvent.click(inputFavorite)
+    expect(inputFavorite).toHaveProperty('src', "http://localhost/blackHeartIcon.svg")
+    const recebeLocalStorage =  localStorage.getItem('favoriteRecipes')    
+    expect(JSON.parse(recebeLocalStorage)).toHaveLength(2)
+  });
+
+
+  test('testando a função de favoritar uma comida', async () => {
+    const {history} = renderWithRouter(<App />, ['/foods/52771']);
+   localStorage.setItem('favoriteRecipes', JSON.stringify(mockLocalDrink))
+    jest.spyOn(global, "fetch").mockImplementation(mockFetch)   
+
+    const inputFavorite = await screen.findByTestId('favorite-btn')
+    expect(inputFavorite).toHaveProperty('src', "http://localhost/whiteHeartIcon.svg")
+    userEvent.click(inputFavorite)
+    expect(inputFavorite).toHaveProperty('src', "http://localhost/blackHeartIcon.svg")
+    const recebeLocalStorage =  localStorage.getItem('favoriteRecipes')    
+    expect(JSON.parse(recebeLocalStorage)).toHaveLength(2)
+  });
+
+  test('testando clipBoard', async () => {
+    const {history} = renderWithRouter(<App />, ['/foods/52771']);
+    console.log(history)
+    jest.spyOn(global, "fetch").mockImplementation(mockFetch)  
+    Object.assign(navigator, {
+      clipboard: {
+        writeText: () => {},
+      },
+    });
+
+    const inputCompartilhar = await screen.findByTestId('share-btn')
+    jest.spyOn(navigator.clipboard, "writeText");
+    userEvent.click(inputCompartilhar)
+    expect(screen.getByText(/Link Copied/i))
+    expect(navigator.clipboard.writeText).toBeCalled()
+  });
 
 
 })

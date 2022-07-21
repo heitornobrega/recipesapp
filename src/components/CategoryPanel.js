@@ -24,7 +24,6 @@ function CategoryPanel({ foods: onFoods, drinks: onDrinks }) {
   const FIRSTS_CATEGORY = 5;
   const firstFiveRecipes = categoryData && categoryData.slice(0, FIRSTS_CATEGORY);
 
-  // se o novo value for igual o passado o novo value deve ser All
   return (
     <div>
       <button

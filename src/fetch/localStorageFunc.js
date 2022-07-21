@@ -10,8 +10,6 @@ export const saveLocalStorage = (drinkOuFoods) => {
     alcoholicOrNot: drinkOuFoods[0].strAlcoholic || '',
     name: drinkOuFoods[0].strDrink || drinkOuFoods[0].strMeal,
     image: drinkOuFoods[0].strDrinkThumb || drinkOuFoods[0].strMealThumb,
-    // doneDate: new Date(),
-    // tags: drinkOuFoods[0].strTags || [''],
   };
   if (listaVarovitas.length > 0) {
     localStorage.setItem('favoriteRecipes', JSON.stringify([...listaVarovitas, obj]));
@@ -23,7 +21,6 @@ export const removeLocalStorage = (id) => {
   const listaVarovitas = localStorage
     .getItem('favoriteRecipes')
     ? JSON.parse(localStorage.getItem('favoriteRecipes')) : [];
-
   const removePeloId = listaVarovitas.filter((elemento) => elemento.id !== id);
   localStorage.setItem('favoriteRecipes', JSON.stringify(removePeloId));
 };
