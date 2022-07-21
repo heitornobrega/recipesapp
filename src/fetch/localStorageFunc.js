@@ -32,3 +32,56 @@ export const pegarLocalStorage = () => {
     return favoritoLocal;
   }
 };
+
+export const localStorageInProgress = (obj, id, location) => {
+  if (location.includes('drinks')) {
+    if (localStorage.getItem('inProgressRecipes')) {
+      console.log('aqui');
+      const inProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const objs = {
+        cocktails: { [id]: [...obj] },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify({
+        ...inProgress,
+        cocktails: { ...inProgress.cocktails, ...objs.cocktails },
+      }));
+    } else {
+      const objs = {
+        cocktails: { [id]: obj },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(objs));
+    }
+  }
+  if (location.includes('foods')) {
+    if (localStorage.getItem('inProgressRecipes')) {
+      const objs = {
+        meals: { [id]: [...obj] },
+      };
+      const inProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      localStorage.setItem('inProgressRecipes', JSON.stringify({ ...inProgress,
+        meals: { ...inProgress.meals, ...objs.meals } }));
+    } else {
+      const objs = {
+        meals: { [id]: obj },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(objs));
+    }
+  }
+};
+
+// export const localStorageInProgressMeals = (obj, id) => {
+//   console.log(id);
+//   if (localStorage.getItem('inProgressRecipes')) {
+//     const objs = {
+//       meals: { [id]: [...obj] },
+//     };
+//     const inProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+//     localStorage.setItem('inProgressRecipes', JSON.stringify({ ...inProgress,
+//       ...objs }));
+//   } else {
+//     const objs = {
+//       meals: { [id]: obj },
+//     };
+//     localStorage.setItem('inProgressRecipes', JSON.stringify(objs));
+//   }
+// };
