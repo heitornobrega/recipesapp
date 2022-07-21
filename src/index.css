@@ -39,3 +39,10 @@ code {
   display: flex;
   flex-direction: column;
 }
+
+.isChecked{
+  text-decoration: line-through;
+}
+.notChecked{
+  text-decoration: none;
+}

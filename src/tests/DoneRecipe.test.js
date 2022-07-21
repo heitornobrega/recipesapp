@@ -104,6 +104,8 @@ describe('all tests from DoneRecipe page', () => {
 
   test('the button share and clipboard', () => {
     beforeTests('/done-recipes')
+
+    // referência utilizada para testar clipboard: https://cursos.alura.com.br/forum/topico-como-testar-o-que-tem-na-area-de-transferencia-e-um-select-multiplo-150788
     navigator.clipboard = {
       writeText: jest.fn(),
     };
