@@ -5,6 +5,50 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url('http://s2.glbimg.com/pkOw6LCsnK72qwmKmozdovs72JM=/620x455/e.glbimg.com/og/ed/f/original/2017/01/11/livro_de_receita.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  /* align-self: center; */
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  background-color: #fbfbfb;
+  height: 310px;
+  width: 300px;
+  margin: 8rem auto 9.1rem auto;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 1px 2px 8px rgba(0,0,0,0.65);
+}
+
+.login-container h1 {
+  margin-bottom: 50px;
+}
+
+.input-content {
+  background-color: #fbfbfb;
+  border: 1px solid black;
+  border-radius: 5px;
+  outline: none;
+  height: 33px;
+  padding-top: 0px;
+  margin: 0 30px 0 30px;
+}
+
+.button-login {
+  border: 2px solid #1a1e31;
+  height: 35px;
+  width: 100px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 25px;
 }
 
 code {

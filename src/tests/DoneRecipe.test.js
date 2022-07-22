@@ -13,8 +13,19 @@ const data = [{
   name: 'Spicy Arrabiata Penne',
   image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
   doneDate: '23/06/2020',
-  tags: ['Pasta', 'Curry']
-}]
+  tags: ['Pasta', 'Curry'],
+},
+{
+  id: '178319',
+  type: 'drink',
+  nationality: '',
+  category: 'Cocktail',
+  alcoholicOrNot:  'Alcoholic',
+  name: 'Aquamarine',
+  image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
+  doneDate: '23/06/2020',
+  tags: [],
+},]
 
 describe('all tests from DoneRecipe page', () => {
 
@@ -46,25 +57,45 @@ describe('all tests from DoneRecipe page', () => {
   test('if the elements are in the page', () => {
     beforeTests('/done-recipes')
 
-    const allBtn = screen.getByTestId('filter-by-all-btn')
-    const foodBtn = screen.getByTestId('filter-by-food-btn')
-    const drinkBtn = screen.getByTestId('filter-by-drink-btn')
-    const image = screen.getByTestId('0-horizontal-image')
-    const text = screen.getByTestId('0-horizontal-top-text')
-    const name = screen.getByTestId('0-horizontal-name')
-    const date = screen.getByTestId('0-horizontal-done-date')
-    const shareBtn = screen.getByTestId('0-horizontal-share-btn')
-    const tags = screen.getByTestId('0-Pasta-horizontal-tag')
+    const allBtn1 = screen.getByTestId('filter-by-all-btn')
+    const foodBtn1 = screen.getByTestId('filter-by-food-btn')
+    const drinkBtn1 = screen.getByTestId('filter-by-drink-btn')
+    const image1 = screen.getByTestId('0-horizontal-image')
+    const text1 = screen.getByTestId('0-horizontal-top-text')
+    const name1 = screen.getByTestId('0-horizontal-name')
+    const date1 = screen.getByTestId('0-horizontal-done-date')
+    const shareBtn1 = screen.getByTestId('0-horizontal-share-btn')
+    const tags1 = screen.getByTestId('0-Pasta-horizontal-tag')
 
-    expect(allBtn).toBeInTheDocument()
-    expect(foodBtn).toBeInTheDocument()
-    expect(drinkBtn).toBeInTheDocument()
-    expect(image).toBeInTheDocument()
-    expect(text).toBeInTheDocument()
-    expect(name).toBeInTheDocument()
-    expect(date).toBeInTheDocument()
-    expect(shareBtn).toBeInTheDocument()
-    expect(tags).toBeInTheDocument()
+    const allBtn2 = screen.getByTestId('filter-by-all-btn')
+    const foodBtn2 = screen.getByTestId('filter-by-food-btn')
+    const drinkBtn2 = screen.getByTestId('filter-by-drink-btn')
+    const image2 = screen.getByTestId('0-horizontal-image')
+    const text2 = screen.getByTestId('0-horizontal-top-text')
+    const name2 = screen.getByTestId('0-horizontal-name')
+    const date2 = screen.getByTestId('0-horizontal-done-date')
+    const shareBtn2 = screen.getByTestId('0-horizontal-share-btn')
+    const tags2 = screen.getByTestId('0-Pasta-horizontal-tag')
+
+    expect(allBtn1).toBeInTheDocument()
+    expect(foodBtn1).toBeInTheDocument()
+    expect(drinkBtn1).toBeInTheDocument()
+    expect(image1).toBeInTheDocument()
+    expect(text1).toBeInTheDocument()
+    expect(name1).toBeInTheDocument()
+    expect(date1).toBeInTheDocument()
+    expect(shareBtn1).toBeInTheDocument()
+    expect(tags1).toBeInTheDocument()
+
+    expect(allBtn2).toBeInTheDocument()
+    expect(foodBtn2).toBeInTheDocument()
+    expect(drinkBtn2).toBeInTheDocument()
+    expect(image2).toBeInTheDocument()
+    expect(text2).toBeInTheDocument()
+    expect(name2).toBeInTheDocument()
+    expect(date2).toBeInTheDocument()
+    expect(shareBtn2).toBeInTheDocument()
+    expect(tags2).toBeInTheDocument()
   });
 
   test('if the elements redirects to other pages', () => {

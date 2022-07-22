@@ -57,7 +57,7 @@ describe('Testando Componente SearchBar', () => {
     }))
 
     const firsImg = await screen.findByRole('img', {  name: /leblebi soup/i})
-    const secondImg = await screen.findByRole('img', {  name: /red peas soup/i})
+    // const secondImg = await screen.findByRole('img', {  name: /red peas soup/i})
     
     const alImg = await screen.findAllByRole('img')
    expect(alImg).toHaveLength(16)

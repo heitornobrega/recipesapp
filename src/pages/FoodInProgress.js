@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
 // import copy from 'clipboard-copy';
 import copy from 'clipboard-copy';
 import { fetchFoodsId } from '../fetch/fetchSearchRecipes';
@@ -12,6 +12,7 @@ import { localStorageInProgress, pegarLocalStorage,
 function FoodInProgress() {
   const { id } = useParams();
   const location = useLocation();
+  const history = useHistory();
   const { pathname } = location;
   const [mealId] = useState(id);
   const [mealInProgress, setMealInProgress] = useState({});
@@ -19,23 +20,24 @@ function FoodInProgress() {
   const [favorite, setFavorite] = useState(false);
   const [foodFavorite, setFoodFavorite] = useState();
   const [LinkCopied, setLinkCopied] = useState(false);
+  const [disabled, setDisabled] = useState(true);
 
   const createIngredientsList = (obj) => {
     const vinte = 20;
     const newArray = [];
-    console.log(obj);
     for (let count = 1; count <= vinte; count += 1) {
       if (obj[`strIngredient${count}`]) {
         newArray.push({
           ingrediente: obj[`strIngredient${count}`],
           checked: false,
+          quantidade: obj[`strMeasure${count}`] || '',
         });
       }
     }
     return newArray;
   };
 
-  const favoritaReceita = (/* { target: { checked } } */) => {
+  const favoritaReceita = () => {
     setFavorite(!favorite);
     if (!favorite) {
       saveLocalStorage(foodFavorite);
@@ -53,13 +55,24 @@ function FoodInProgress() {
   };
 
   const compartilhar = () => {
-    copy(`http://localhost:3000${location.pathname}`);
+    copy(`http://localhost:3000${location.pathname.replace('/in-progress', '')}`);
     setLinkCopied(true);
     setTimeout(() => setLinkCopied(false), Number('1000'));
   };
 
+  const verificaBotaoFinish = (ide) => {
+    const localInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')).meals;
+
+    const receitaPronta = localInProgress[ide]?.every((e) => e.checked === true);
+
+    if (receitaPronta) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  };
+
   const toggleIgredient = ({ target: { name } }) => {
-    // console.log(checked);
     const arrayAtt = validIngredients.map((ingredient) => {
       if (ingredient.ingrediente === name) {
         ingredient.checked = !ingredient.checked;
@@ -69,25 +82,27 @@ function FoodInProgress() {
 
     setValidIngredients(arrayAtt);
     localStorageInProgress(arrayAtt, id, pathname);
-    // setCheck(target.name ? target.checked : target.checked);
+    verificaBotaoFinish(id);
   };
 
   const ischeckBox = (ide, foods) => {
     const localInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (localInProgress && !localInProgress.cocktails && localInProgress.meals[ide]) {
-      setValidIngredients(localInProgress.meals[ide]);
+    if (localInProgress && localInProgress.meals) {
+      if (localInProgress.meals[ide].length > 0) {
+        setValidIngredients(localInProgress.meals[ide]);
+        verificaBotaoFinish(ide);
+      } else {
+        setValidIngredients(createIngredientsList(...foods));
+      }
     } else {
       setValidIngredients(createIngredientsList(...foods));
-      // localStorage.setItem('inProgressRecipes', JSON.stringify({ cocktails: {} }));
     }
   };
 
   useEffect(() => {
     const saveMealInProgress = async () => {
       const { meals } = await fetchFoodsId(mealId);
-      console.log(meals);
       setMealInProgress(...meals);
-      // createIngredientsList(...meals);
       ischeckBox(id, meals);
       setFoodFavorite(meals);
     };
@@ -98,7 +113,6 @@ function FoodInProgress() {
     isChecked(id);
   }, []);
 
-  console.log(validIngredients);
   return (
     <div>
       {mealInProgress
@@ -137,14 +151,14 @@ function FoodInProgress() {
             <div data-testid="recipe-category">
               {mealInProgress.strCategory}
             </div>
-            <div data-testid="-ingredient-step">
-              Ingredients Steps
-              <div className="ingredientsList">
-                {validIngredients && validIngredients.map((ingredient, idx) => (
+
+            <ol className="ingredientsList">
+              {validIngredients && validIngredients.map((ingredient, idx) => (
+                <li key={ ingredient.ingrediente }>
                   <label
-                    key={ ingredient.ingrediente }
                     htmlFor={ ingredient.ingrediente }
                     className={ ingredient.checked ? 'isChecked' : 'notChecked' }
+                    data-testid={ `${idx}-ingredient-step` }
                   >
                     <input
                       onChange={ (e) => toggleIgredient(e) }
@@ -152,19 +166,21 @@ function FoodInProgress() {
                       type="checkbox"
                       name={ ingredient.ingrediente }
                       id={ ingredient.ingrediente }
-                      data-testid={ `${idx}-ingredient-step` }
                     />
-                    {ingredient.ingrediente}
+                    {`${ingredient.ingrediente} ${ingredient.quantidade}`}
                   </label>
-                ))}
-              </div>
-            </div>
+                </li>
+              ))}
+            </ol>
+
             <div data-testid="instructions">
               instrucoes
             </div>
             <button
               data-testid="finish-recipe-btn"
               type="button"
+              disabled={ disabled }
+              onClick={ () => { history.push('/done-recipes'); } }
             >
               Finish Recipe
             </button>

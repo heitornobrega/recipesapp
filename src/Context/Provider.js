@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory /* useLocation */ } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Mycontext from './MyContext';
 import fetchSearchRecipes,
 {
@@ -9,7 +9,6 @@ import fetchSearchRecipes,
 } from '../fetch/fetchSearchRecipes';
 
 function Provider({ children }) {
-  // const location = useLocation();
   const [user, setUser] = useState();
   const [objSearchFoods, setobjSearchFoods] = useState({});
   const [dataSeachFoods, setdataSeachFoods] = useState([]);
@@ -17,8 +16,6 @@ function Provider({ children }) {
   const [dataDrinks, setDataDrinks] = useState([]);
   const [alert, setAlert] = useState(false);
   const [filterByCategory, setFilterByCategory] = useState({});
-  // const [filteredData, setFilteredData] = useState({});
-  // const [foodsAreLoaded, setFoodsAreLoaded] = useState(false);
   const history = useHistory();
 
   const handleSubmit = (users) => {
@@ -38,9 +35,7 @@ function Provider({ children }) {
         setDataFoods(firstTwelveRecipes);
       }
     };
-    // if (location.pathname.includes('foods')) {
     fetchMeals();
-    // }
   }, []);
 
   useEffect(() => {
@@ -52,12 +47,8 @@ function Provider({ children }) {
         setDataDrinks(firstTwelveRecipes);
       }
     };
-    // if (location.pathname.includes('drinks')) {
     fetchDrink();
-    // }
   }, []);
-
-  ///
 
   useEffect(() => {
     const { onDrinks, onFoods, value } = filterByCategory;
@@ -90,11 +81,11 @@ function Provider({ children }) {
   const fetchApi = async (obj) => {
     const FIRST_RECIPIES = 12;
     const respostaApi = await fetchSearchRecipes(obj);
-    // console.log(respostaApi);
     if (respostaApi.meals) {
       const { meals } = respostaApi;
       const firstTwelveRecipes = meals && meals.slice(0, FIRST_RECIPIES);
       setDataFoods(firstTwelveRecipes);
+      console.log('aqui', respostaApi.meals.length);
       if (respostaApi.meals.length === 1) {
         history.push(`/foods/${respostaApi.meals[0].idMeal}`);
       }
@@ -122,9 +113,6 @@ function Provider({ children }) {
     }
   };
   const context = {
-    // foodsAreLoaded,
-    // setFoodsAreLoaded,
-    // filteredData,
     handleSubmit,
     user,
     handleSearchFoods,

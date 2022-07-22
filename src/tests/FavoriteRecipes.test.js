@@ -30,7 +30,7 @@ describe('Testando a Pagina FavoriteRecipes', () => {
 
 
   test('Verificando a rota /favorite-recipes', () => {
-    // window.console.log('escrevendo');localStorage.setItem('favoriteRecipes', JSON.stringify(mockLocal))
+ 
     const { history } = renderWithRouter(<App />, ['/favorite-recipes']);
     expect(history.location.pathname).toBe('/favorite-recipes')
 
@@ -47,7 +47,7 @@ describe('Testando a Pagina FavoriteRecipes', () => {
 
   });
   test('Verificando a lista de favorito', () => {
-    window.console.log('escrevendo');localStorage.setItem('favoriteRecipes', JSON.stringify(mockLocal))
+    window.localStorage.setItem('favoriteRecipes', JSON.stringify(mockLocal))
     const { history } = renderWithRouter(<App />, ['/favorite-recipes']);
 
     const img1 = screen.getByTestId('0-horizontal-image')
@@ -65,7 +65,7 @@ describe('Testando a Pagina FavoriteRecipes', () => {
   });
 
   test('Testando btnFood btnDrink e btnAll', () => {
-    window.console.log('escrevendo');localStorage.setItem('favoriteRecipes', JSON.stringify(mockLocal))
+    window.localStorage.setItem('favoriteRecipes', JSON.stringify(mockLocal))
     const { history } = renderWithRouter(<App />, ['/favorite-recipes']);
 
     const img1 = screen.getByTestId('0-horizontal-image')
@@ -89,7 +89,7 @@ describe('Testando a Pagina FavoriteRecipes', () => {
     expect(screen.getAllByRole('img')).toHaveLength(2)
   });
   test('Testando btnFood btnDrink e btnAll', () => {
-    window.console.log('escrevendo');localStorage.setItem('favoriteRecipes', JSON.stringify(mockLocal))
+    window.localStorage.setItem('favoriteRecipes', JSON.stringify(mockLocal))
     const { history } = renderWithRouter(<App />, ['/favorite-recipes']);    
 
     expect(screen.getAllByRole('img')).toHaveLength(3)

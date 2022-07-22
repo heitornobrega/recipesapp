@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import { fetchDrinksId } from '../fetch/fetchSearchRecipes';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -11,6 +11,7 @@ import { localStorageInProgress, pegarLocalStorage,
 function DrinkInProgress() {
   const { id } = useParams();
   const location = useLocation();
+  const history = useHistory();
   const { pathname } = location;
   const [drinkId] = useState(id);
   const [LinkCopied, setLinkCopied] = useState(false);
@@ -19,29 +20,28 @@ function DrinkInProgress() {
   const [drinkFavorite, setDrinkFavorite] = useState();
   const [favorite, setFavorite] = useState(false);
   const [validIngredients, setValidIngredients] = useState([]);
-  // const [ingredientsChecked, setIngredientsChecked] = useState([]);
-  // const [ingredientsUnChecked, setIngredientsUnChecked] = useState([]);
-  // const [check, setCheck] = useState(false);
+  const [disabled, setDisabled] = useState(true);
 
   const createIngredientsList = (obj) => {
     const vinte = 20;
     const newArray = [];
-    console.log(obj);
     for (let count = 1; count <= vinte; count += 1) {
       if (obj[`strIngredient${count}`]) {
         newArray.push({
           ingrediente: obj[`strIngredient${count}`],
           checked: false,
+          quantidade: obj[`strMeasure${count}`] || '',
         });
       }
     }
     return newArray;
   };
 
-  const favoritaReceita = (/* { target: { checked } } */) => {
+  const favoritaReceita = () => {
     setFavorite(!favorite);
     if (!favorite) {
       saveLocalStorage(drinkFavorite);
+      console.log(drinkFavorite);
     }
     if (favorite) {
       removeLocalStorage(id);
@@ -49,9 +49,22 @@ function DrinkInProgress() {
   };
 
   const compartilhar = () => {
-    copy(`http://localhost:3000${location.pathname}`);
+    copy(`http://localhost:3000${location.pathname.replace('/in-progress', '')}`);
     setLinkCopied(true);
     setTimeout(() => setLinkCopied(false), Number('1000'));
+  };
+
+  const verificaBotaoFinish = (ide) => {
+    const localInProgress = JSON.parse(localStorage
+      .getItem('inProgressRecipes')).cocktails;
+
+    const receitaPronta = localInProgress[ide]?.every((e) => e.checked === true);
+
+    if (receitaPronta) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
   };
 
   const isChecked = (ide) => {
@@ -62,7 +75,6 @@ function DrinkInProgress() {
   };
 
   const toggleIgredient = ({ target: { name } }) => {
-    // console.log(checked);
     const arrayAtt = validIngredients.map((ingredient) => {
       if (ingredient.ingrediente === name) {
         ingredient.checked = !ingredient.checked;
@@ -71,19 +83,21 @@ function DrinkInProgress() {
     });
 
     setValidIngredients(arrayAtt);
-    console.log(arrayAtt);
     localStorageInProgress(arrayAtt, id, pathname);
-    // setCheck(target.name ? target.checked : target.checked);
+    verificaBotaoFinish(id);
   };
 
   const ischeckBox = (ide, drinks) => {
     const localInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (localInProgress && !localInProgress.meals && localInProgress.cocktails[ide]) {
-      setValidIngredients(localInProgress.cocktails[ide]);
+    if (localInProgress && localInProgress.cocktails) {
+      if (localInProgress.cocktails[ide].length > 0) {
+        setValidIngredients(localInProgress.cocktails[ide]);
+        verificaBotaoFinish(ide);
+      } else {
+        setValidIngredients(createIngredientsList(...drinks));
+      }
     } else {
-      console.log('no else');
       setValidIngredients(createIngredientsList(...drinks));
-      // localStorage.setItem('inProgressRecipes', JSON.stringify({ meals: {} }));
     }
   };
 
@@ -92,17 +106,13 @@ function DrinkInProgress() {
       const { drinks } = await fetchDrinksId(drinkId);
       setDrinkInProgress(...drinks);
       setDrinkFavorite(drinks);
-      // createIngredientsList(...drinks);
       ischeckBox(id, drinks);
-      console.log(drinks);
     };
     saveDrinkInProgress();
   }, []);
 
   useEffect(() => {
     isChecked(id);
-    // ischeckBox(id);
-    // setDrinkFavorite(drinks);
   }, []);
 
   return (
@@ -125,7 +135,7 @@ function DrinkInProgress() {
               <input
                 type="image"
                 src={ favorite ? blackHeartIcon : whiteHeartIcon }
-                alt="favorite"
+                alt={ favorite ? 'blackHeartIcon' : 'whiteHeartIcon' }
                 name="favorite"
                 id="favorite"
                 onClick={ favoritaReceita }
@@ -143,27 +153,29 @@ function DrinkInProgress() {
             <div data-testid="recipe-category">
               {drinkInProgress.strAlcoholic}
             </div>
-            <div data-testid="-ingredient-step">
+            <div>
               Ingredients Steps
-              <div className="ingredientsList">
+              <ol className="ingredientsList">
                 {validIngredients && validIngredients.map((ingredient, idx) => (
-                  <label
-                    key={ ingredient.ingrediente }
-                    htmlFor={ ingredient.ingrediente }
-                    className={ ingredient.checked ? 'isChecked' : 'notChecked' }
-                  >
-                    <input
-                      onChange={ (e) => toggleIgredient(e) }
-                      checked={ ingredient.checked }
-                      type="checkbox"
-                      name={ ingredient.ingrediente }
-                      id={ ingredient.ingrediente }
+                  <li key={ ingredient.ingrediente }>
+                    <label
+                      htmlFor={ ingredient.ingrediente }
+                      className={ ingredient.checked ? 'isChecked' : 'notChecked' }
                       data-testid={ `${idx}-ingredient-step` }
-                    />
-                    {ingredient.ingrediente}
-                  </label>
+                    >
+                      <input
+                        onChange={ (e) => toggleIgredient(e) }
+                        checked={ ingredient.checked }
+                        type="checkbox"
+                        name={ ingredient.ingrediente }
+                        id={ ingredient.ingrediente }
+
+                      />
+                      {`${ingredient.ingrediente} ${ingredient.quantidade}`}
+                    </label>
+                  </li>
                 ))}
-              </div>
+              </ol>
             </div>
             <div data-testid="instructions">
               instrucoes
@@ -171,6 +183,8 @@ function DrinkInProgress() {
             <button
               data-testid="finish-recipe-btn"
               type="button"
+              disabled={ disabled }
+              onClick={ () => { history.push('/done-recipes'); } }
             >
               Finish Recipe
             </button>

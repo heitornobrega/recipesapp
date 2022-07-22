@@ -27,7 +27,6 @@ export const removeLocalStorage = (id) => {
 
 export const pegarLocalStorage = () => {
   if (localStorage.getItem('favoriteRecipes')) {
-    console.log('aqui');
     const favoritoLocal = JSON.parse(localStorage.getItem('favoriteRecipes'));
     return favoritoLocal;
   }
@@ -36,7 +35,6 @@ export const pegarLocalStorage = () => {
 export const localStorageInProgress = (obj, id, location) => {
   if (location.includes('drinks')) {
     if (localStorage.getItem('inProgressRecipes')) {
-      console.log('aqui');
       const inProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
       const objs = {
         cocktails: { [id]: [...obj] },
@@ -69,19 +67,15 @@ export const localStorageInProgress = (obj, id, location) => {
   }
 };
 
-// export const localStorageInProgressMeals = (obj, id) => {
-//   console.log(id);
-//   if (localStorage.getItem('inProgressRecipes')) {
-//     const objs = {
-//       meals: { [id]: [...obj] },
-//     };
-//     const inProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
-//     localStorage.setItem('inProgressRecipes', JSON.stringify({ ...inProgress,
-//       ...objs }));
-//   } else {
-//     const objs = {
-//       meals: { [id]: obj },
-//     };
-//     localStorage.setItem('inProgressRecipes', JSON.stringify(objs));
-//   }
-// };
+export const verifyLocalStorage = (id, keyName) => {
+  const localStorageBolado = localStorage.getItem('inProgressRecipes');
+  if (localStorageBolado) {
+    const prevLocalSto = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    localStorage.setItem('inProgressRecipes',
+      JSON.stringify({ ...prevLocalSto,
+        [keyName]: { ...prevLocalSto[keyName], [id]: [] } }));
+  } else {
+    localStorage.setItem('inProgressRecipes',
+      JSON.stringify({ [keyName]: { [id]: [] } }));
+  }
+};

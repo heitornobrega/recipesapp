@@ -1,11 +1,9 @@
-import React, { useState /* useEffect */ } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import copy from 'clipboard-copy';
 import shareIcon from '../images/shareIcon.svg';
-import { /* pegarLocalStorage */
-  removeLocalStorage /* saveLocalStorage */ } from '../fetch/localStorageFunc';
-// import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import { removeLocalStorage } from '../fetch/localStorageFunc';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function CardDoneRecipe({
@@ -19,11 +17,8 @@ function CardDoneRecipe({
   image,
   fav,
   setFavoriteList,
-  // doneDate,
-  // tags,
 }) {
   const [copyConditional, setCopyConditional] = useState(false);
-  // const [favorite, setFavorite] = useState(false);
   const recipeType = type === 'food' ? nationality : alcoholicOrNot;
 
   const copyLink = () => {
@@ -32,28 +27,11 @@ function CardDoneRecipe({
     setTimeout(() => setCopyConditional(false), Number('1000'));
   };
 
-  // const isChecked = (ide) => {
-  //   const isFavorite = pegarLocalStorage();
-  //   if (isFavorite) {
-  //     setFavorite(isFavorite.some((elemento) => elemento.id === ide));
-  //   }
-  // };
-
-  // useEffect(() => {
-  // isChecked(id);
-  // }, []);
-
-  const favoritaReceita = (/* { target: { checked } } */) => {
-    // setFavorite(!favorite);
-    // if (!favorite) {
-    //   saveLocalStorage(fav);
-    // }
-    // if (favorite) {
+  const favoritaReceita = () => {
     setFavoriteList(fav.filter((elemento) => elemento.id !== id));
 
     removeLocalStorage(id);
   };
-  // };
 
   return (
     <div>
@@ -71,16 +49,6 @@ function CardDoneRecipe({
           <h3 data-testid={ `${index}-horizontal-name` }>
             { name }
           </h3>
-          {/* <p data-testid={ `${index}-horizontal-done-date` }>
-            { doneDate }
-          </p> */}
-          {/* {
-            tags.map((tag, i) => (
-              <span key={ i } data-testid={ `${index}-${tag}-horizontal-tag` }>
-                { tag }
-              </span>
-            ))
-          } */}
         </div>
       </Link>
       <input
@@ -118,8 +86,6 @@ CardDoneRecipe.propTypes = {
   image: PropTypes.string.isRequired,
   fav: PropTypes.arrayOf(Object).isRequired,
   setFavoriteList: PropTypes.func.isRequired,
-  // doneDate: PropTypes.string.isRequired,
-  // tags: PropTypes.arrayOf.isRequired,
 };
 
 export default CardDoneRecipe;

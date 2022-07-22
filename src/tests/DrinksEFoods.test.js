@@ -35,6 +35,7 @@ const mockLocalDrink = [
 ]
 
 describe('testando componenteDetail', () => {
+  afterEach(() => global.fetch.mockRestore())
 
   test('testando a pagina drinks com id 178319', async () => {
     const {history} = renderWithRouter(<App />, ['/drinks']);
@@ -48,12 +49,51 @@ describe('testando componenteDetail', () => {
   })
 
 
-  test('testando a pagina drinks com o Alert', async () => {
+
+  test('testando a pagina drinks com o Alert, drinks', async () => {
     window.alert = jest.fn();
     const {history} = renderWithRouter(<App />, ['/drinks']);
     jest.spyOn(global, "fetch").mockImplementation(mockFetch)
 
     expect(history.location.pathname).toBe('/drinks')
+
+    const btnSearch = screen.getByTestId('search-top-btn')
+    userEvent.click(btnSearch)
+    const inputSearch = screen.getByTestId('search-input')
+    userEvent.type(inputSearch, 'xablau')
+    const inputRadioFirstLetter = screen.getByTestId('first-letter-search-radio')
+    userEvent.click(inputRadioFirstLetter)
+    const btnExecSearch = screen.getByTestId('exec-search-btn')
+    userEvent.click(btnExecSearch)
+    expect(window.alert.mock.calls.length).toBe(1)
+  })
+  test('testando a pagina drinks com o Alert, foods', async () => {
+    // global.fetch.mockRestore()
+    // global.alert.mockRestore()
+
+    global.alert = jest.fn(() => 'Alerta');
+    jest.spyOn(global, "fetch").mockImplementation(mockFetch)
+    const {history} = renderWithRouter(<App />, ['/foods']);
+
+    expect(history.location.pathname).toBe('/foods')
+expect(global.alert()).toBe('Alerta')
+    const btnSearch = screen.getByTestId('search-top-btn')
+    userEvent.click(btnSearch)
+    const inputSearch = screen.getByTestId('search-input')
+    userEvent.type(inputSearch, 'xablau')
+    const inputRadioCategory = screen.getByRole('radio', {  name: /name/i})
+    userEvent.click(inputRadioCategory)
+    const btnExecSearch = screen.getByTestId('exec-search-btn')
+    userEvent.click(btnExecSearch)
+    // expect(global.alert.mock.calls.length).toBe(1)
+    expect(global.alert).toBeCalled()
+  })
+  test('testando a pagina foods com o Alert', async () => {
+    window.alert = jest.fn();
+    const {history} = renderWithRouter(<App />, ['/foods']);
+    jest.spyOn(global, "fetch").mockImplementation(mockFetch)
+
+    expect(history.location.pathname).toBe('/foods')
 
     const btnSearch = screen.getByTestId('search-top-btn')
     userEvent.click(btnSearch)
