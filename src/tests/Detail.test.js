@@ -315,6 +315,6 @@ describe('testando componenteDetail', () => {
     userEvent.click(btnStart)
     expect(history.location.pathname).toBe('/drinks/178319/in-progress')
   });
-
+ 
 
 })
