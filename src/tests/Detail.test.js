@@ -35,10 +35,49 @@ const mockLocalDrink = [
 ]
 
 describe('testando componenteDetail', () => {
+  afterEach(() => global.fetch.mockRestore())
+
+  test('testando a pagina foods com id 52771', async () => {
+    const lista = {
+      meals: {
+        ['52771'] : []}
+    }
+
+    // localStorage.clear()
+    jest.spyOn(global, "fetch").mockImplementation(mockFetch)   
+    localStorage.setItem('inProgressRecipes', JSON.stringify(lista))
+    const {history} = renderWithRouter(<App />, ['/foods/52771']);
+
+    const inputCompartilhar = await screen.findByTestId('share-btn')
+    const inputFavorite = await screen.findByTestId('favorite-btn')
+    expect(inputFavorite).toHaveProperty('src', "http://localhost/whiteHeartIcon.svg")
+    userEvent.click(inputFavorite)
+    expect(inputFavorite).toHaveProperty('src', "http://localhost/blackHeartIcon.svg")
+    const startRecipe = screen.getByTestId('start-recipe-btn')
+    userEvent.click(startRecipe)
+    expect(history.location.pathname).toBe('/foods/52771/in-progress')
+
+    // userEvent.click(inputCompartilhar)
+    // expect(screen.getByText(/Link Codied/))
+  });
 
   test('testando a pagina drinks com id 178319 o botao start recipe', async () => {
-    const {history} = renderWithRouter(<App />, ['/drinks/178319']);
+
+    const lista = {
+      cocktails: {
+        ['178319'] : []},
+        meals: {
+          ['52771'] : []}
+    }
+  
+    const lista2 = {
+      meals: {
+        ['52771'] : []}
+    }
+
+    localStorage.setItem('inProgressRecipes', JSON.stringify(lista))
     jest.spyOn(global, "fetch").mockImplementation(mockFetch)
+    const {history} = renderWithRouter(<App />, ['/drinks/178319']);
       // jest.spyOn(global, "fetch").mockImplementation((url) =>
     // Promise.resolve({
     //   json: ()  => {
@@ -51,6 +90,7 @@ describe('testando componenteDetail', () => {
     //   }
     // }))
 
+    
 
     const recipeFoto = await screen.findByTestId('recipe-photo')
   const title =  screen.getByRole('heading', { name: /aquamarine/i})
@@ -89,24 +129,6 @@ describe('testando componenteDetail', () => {
     expect(title).toBeInTheDocument()
     expect(intrucao).toBeInTheDocument()
     expect(allImg).toHaveLength(7)
-  });
-
-  test('testando a pagina foods com id 52771', async () => {
-    localStorage.clear()
-    const {history} = renderWithRouter(<App />, ['/foods/52771']);
-    jest.spyOn(global, "fetch").mockImplementation(mockFetch)   
-
-    const inputCompartilhar = await screen.findByTestId('share-btn')
-    const inputFavorite = await screen.findByTestId('favorite-btn')
-    expect(inputFavorite).toHaveProperty('src', "http://localhost/whiteHeartIcon.svg")
-    userEvent.click(inputFavorite)
-    expect(inputFavorite).toHaveProperty('src', "http://localhost/blackHeartIcon.svg")
-    const startRecipe = screen.getByTestId('start-recipe-btn')
-    userEvent.click(startRecipe)
-    expect(history.location.pathname).toBe('/foods/52771/in-progress')
-
-    // userEvent.click(inputCompartilhar)
-    // expect(screen.getByText(/Link Codied/))
   });
 
   test('testando se ao renderizar a pagina ja esta favoritado', async () => {
@@ -152,7 +174,6 @@ describe('testando componenteDetail', () => {
 
   test('testando clipBoard', async () => {
     const {history} = renderWithRouter(<App />, ['/foods/52771']);
-    console.log(history)
     jest.spyOn(global, "fetch").mockImplementation(mockFetch)  
     Object.assign(navigator, {
       clipboard: {
@@ -166,6 +187,134 @@ describe('testando componenteDetail', () => {
     expect(screen.getByText(/Link Copied/i))
     expect(navigator.clipboard.writeText).toBeCalled()
   });
+  test('testando se o botao nao exite', async () => {
 
+    const lista2 = {
+      meals: {
+        ['52771']: [
+          {
+            "ingrediente": "penne rigate",
+            "checked": true,
+            "quantidade": "1 pound"
+          },
+          {
+            "ingrediente": "olive oil",
+            "checked": true,
+            "quantidade": "1/4 cup"
+          },
+          {
+            "ingrediente": "garlic",
+            "checked": true,
+            "quantidade": "3 cloves"
+          },
+          {
+            "ingrediente": "chopped tomatoes",
+            "checked": true,
+            "quantidade": "1 tin "
+          },
+          {
+            "ingrediente": "red chile flakes",
+            "checked": true,
+            "quantidade": "1/2 teaspoon"
+          },
+          {
+            "ingrediente": "italian seasoning",
+            "checked": true,
+            "quantidade": "1/2 teaspoon"
+          },
+          {
+            "ingrediente": "basil",
+            "checked": true,
+            "quantidade": "6 leaves"
+          },
+          {
+            "ingrediente": "Parmigiano-Reggiano",
+            "checked": true,
+            "quantidade": "spinkling"
+          }
+        ]
+      }
+    }
+    localStorage.setItem('inProgressRecipes', JSON.stringify(lista2))
+    jest.spyOn(global, "fetch").mockImplementation(mockFetch)  
+    const {history} = renderWithRouter(<App />, ['/foods/52771']);
+    const btnStart = screen.queryByTestId('start-recipe-btn')
+    expect(btnStart).not.toBeInTheDocument()
+  });
+  test('testando se o botao exite', async () => {
+
+    const lista2 = {
+      meals: {
+        ['52771']: [
+          {
+            "ingrediente": "penne rigate",
+            "checked": true,
+            "quantidade": "1 pound"
+          },
+          {
+            "ingrediente": "olive oil",
+            "checked": true,
+            "quantidade": "1/4 cup"
+          },
+          {
+            "ingrediente": "garlic",
+            "checked": true,
+            "quantidade": "3 cloves"
+          },
+          {
+            "ingrediente": "chopped tomatoes",
+            "checked": true,
+            "quantidade": "1 tin "
+          },
+          {
+            "ingrediente": "red chile flakes",
+            "checked": true,
+            "quantidade": "1/2 teaspoon"
+          },
+          {
+            "ingrediente": "italian seasoning",
+            "checked": true,
+            "quantidade": "1/2 teaspoon"
+          },
+          {
+            "ingrediente": "basil",
+            "checked": true,
+            "quantidade": "6 leaves"
+          },
+          {
+            "ingrediente": "Parmigiano-Reggiano",
+            "checked": false,
+            "quantidade": "spinkling"
+          }
+        ]
+      }
+    }
+    localStorage.setItem('inProgressRecipes', JSON.stringify(lista2))
+    jest.spyOn(global, "fetch").mockImplementation(mockFetch)  
+    const {history} = renderWithRouter(<App />, ['/foods/52771']);
+    const btnStart = await screen.findByTestId('start-recipe-btn')
+    expect(btnStart).toBeInTheDocument()
+  });
+  test('testando se ao clicar no botao vai para proxima pagina, foods', async () => {
+    localStorage.clear()
+    jest.spyOn(global, "fetch").mockImplementation(mockFetch)  
+    const {history} = renderWithRouter(<App />, ['/foods/52771']);
+    const btnStart = await screen.findByTestId('start-recipe-btn')
+    expect(history.location.pathname).toBe('/foods/52771')
+    expect(btnStart).toBeInTheDocument()
+    userEvent.click(btnStart)
+    expect(history.location.pathname).toBe('/foods/52771/in-progress')
+  });
+  test('testando se ao clicar no botao vai para proxima pagina, drinks', async () => {
+    localStorage.clear()
+    jest.spyOn(global, "fetch").mockImplementation(mockFetch)  
+    const {history} = renderWithRouter(<App />, ['/drinks/178319']);
+    const btnStart = await screen.findByTestId('start-recipe-btn')
+    expect(history.location.pathname).toBe('/drinks/178319')
+    expect(btnStart).toBeInTheDocument()
+    userEvent.click(btnStart)
+    expect(history.location.pathname).toBe('/drinks/178319/in-progress')
+  });
+ 
 
 })

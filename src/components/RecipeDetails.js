@@ -5,8 +5,8 @@ import copy from 'clipboard-copy';
 import { fetchDrinkMounth, fetchDrinksId,
   fetchFoodsId, fetchMealsMounth } from '../fetch/fetchSearchRecipes';
 import shareIcon from '../images/shareIcon.svg';
-import { saveLocalStorage,
-  removeLocalStorage, pegarLocalStorage } from '../fetch/localStorageFunc';
+import { saveLocalStorage, removeLocalStorage, pegarLocalStorage,
+  verifyLocalStorage } from '../fetch/localStorageFunc';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
@@ -18,28 +18,33 @@ function RecipeDetails({ id, location }) {
   const [ingredients, setIngredients] = useState([]);
   const [recomendacoes, setRecomendacoes] = useState([]);
   const [receitaProgress, setReceitaProgress] = useState(false);
+  const [finishedRecipe, setFinishedRecipe] = useState(true);
 
   const recipeProgressDrink = (array, ideLocal) => {
-    const lista = JSON.parse(localStorage.getItem('cocktails'));
-    if (lista && lista[ideLocal]) {
-      const receitaPronta = array.every((e) => e.ingrediente.includes(lista[ideLocal]));
-      if (receitaPronta) {
-        setReceitaProgress(false);
-      } else {
+    const lista = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (lista) {
+      console.log('drinks', lista);
+      const receitaPronta = lista.cocktails[ideLocal].every((e) => e.checked === true);
+      if (receitaPronta && lista.cocktails[ideLocal].length > 0) {
+        setFinishedRecipe(false);
+      } else { setFinishedRecipe(true); }
+      if (lista.cocktails[ideLocal]) {
         setReceitaProgress(true);
-      }
+      } else { setReceitaProgress(false); }
     }
   };
 
   const recipeProgressFood = (array, ideLocal) => {
-    const lista = JSON.parse(localStorage.getItem('meals'));
-    if (lista && lista[ideLocal]) {
-      const receitaPronta = array.every((e) => e.ingrediente.includes(lista[ideLocal]));
-      if (receitaPronta) {
-        setReceitaProgress(false);
-      } else {
+    const lista = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (lista) {
+      console.log('foods', lista);
+      const receitaPronta = lista.meals[ideLocal].every((e) => e.checked === true);
+      if (receitaPronta && lista.meals[ideLocal].length > 0) {
+        setFinishedRecipe(false);
+      } else { setFinishedRecipe(true); }
+      if (lista.meals[ideLocal]) {
         setReceitaProgress(true);
-      }
+      } else { setReceitaProgress(false); }
     }
   };
 
@@ -74,9 +79,7 @@ function RecipeDetails({ id, location }) {
     }
     if (location.pathname === `/foods/${id}`) {
       const food = await fetchFoodsId(idFood);
-
       const newArray = [];
-
       for (let count = 1; count <= vinte; count += 1) {
         if (food.meals[0][`strIngredient${count}`]) {
           newArray.push({
@@ -95,7 +98,7 @@ function RecipeDetails({ id, location }) {
     isChecked(id);
   };
 
-  const favoritaReceita = (/* { target: { checked } } */) => {
+  const favoritaReceita = () => {
     setFavorite(!favorite);
     if (!favorite) {
       saveLocalStorage(drinkOuFoods);
@@ -113,15 +116,20 @@ function RecipeDetails({ id, location }) {
 
   const redirecionaParaInPrograss = () => {
     if (location.pathname === `/drinks/${id}`) {
+      if (!receitaProgress) {
+        verifyLocalStorage(id, 'cocktails');
+      }
       history.push(`/drinks/${id}/in-progress`);
     } else {
+      if (!receitaProgress) {
+        verifyLocalStorage(id, 'meals');
+      }
       history.push(`/foods/${id}/in-progress`);
     }
   };
 
   useEffect(() => {
     fetchId(id);
-    // isChecked(id);
   }, []);
 
   return (
@@ -212,15 +220,18 @@ function RecipeDetails({ id, location }) {
               </div>
             )) }
           </div>
-          <button
-            className="bntStartRecipe"
-            data-testid="start-recipe-btn"
-            type="button"
-            onClick={ redirecionaParaInPrograss }
-          >
-            {receitaProgress ? 'Start Recipe' : 'Continue Recipe' }
+          {finishedRecipe
+          && (
+            <button
+              className="bntStartRecipe"
+              data-testid="start-recipe-btn"
+              type="button"
+              onClick={ redirecionaParaInPrograss }
+            >
+              {receitaProgress ? 'Continue Recipe' : 'Start Recipe' }
 
-          </button>
+            </button>
+          )}
         </Fragment>
       ))}
     </section>
@@ -228,7 +239,7 @@ function RecipeDetails({ id, location }) {
 }
 
 RecipeDetails.propTypes = {
-  location: PropTypes.string.isRequired,
+  location: PropTypes.objectOf(Object).isRequired,
   id: PropTypes.string.isRequired,
 };
 
