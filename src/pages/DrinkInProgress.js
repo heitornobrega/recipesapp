@@ -114,7 +114,7 @@ function DrinkInProgress() {
   useEffect(() => {
     isChecked(id);
   }, []);
-
+  //
   return (
     <div>
       {drinkInProgress
