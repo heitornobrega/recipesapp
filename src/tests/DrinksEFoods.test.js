@@ -76,7 +76,7 @@ describe('testando componenteDetail', () => {
     const {history} = renderWithRouter(<App />, ['/foods']);
 
     expect(history.location.pathname).toBe('/foods')
-expect(global.alert()).toBe('Alerta')
+    expect(global.alert()).toBe('Alerta')
     const btnSearch = screen.getByTestId('search-top-btn')
     userEvent.click(btnSearch)
     const inputSearch = screen.getByTestId('search-input')
