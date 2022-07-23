@@ -16,63 +16,7 @@ const mockLocalDrink = [
       'name': 'Aquamarine',
       'image': 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
       
-    }
-]
-  const mockTest = [
-    {
-        "idDrink": "178319",
-        "strDrink": "Aquamarine",
-        "strDrinkAlternate": null,
-        "strTags": null,
-        "strVideo": null,
-        "strCategory": "Cocktail",
-        "strIBA": null,
-        "strAlcoholic": "Alcoholic",
-        "strGlass": "Martini Glass",
-        "strInstructions": "Shake well in a shaker with ice.\r\nStrain in a martini glass.",
-        "strInstructionsES": "Agite bien en una coctelera con hielo. Cuela en una copa de Martini.",
-        "strInstructionsDE": null,
-        "strInstructionsFR": null,
-        "strInstructionsIT": "Shakerare bene in uno shaker con ghiaccio.\r\nFiltrare in una coppetta Martini.",
-        "strInstructionsZH-HANS": null,
-        "strInstructionsZH-HANT": null,
-        "strDrinkThumb": "https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg",
-        "strIngredient1": "Hpnotiq",
-        "strIngredient2": "Pineapple Juice",
-        "strIngredient3": "Banana Liqueur",
-        "strIngredient4": null,
-        "strIngredient5": null,
-        "strIngredient6": null,
-        "strIngredient7": null,
-        "strIngredient8": null,
-        "strIngredient9": null,
-        "strIngredient10": null,
-        "strIngredient11": null,
-        "strIngredient12": null,
-        "strIngredient13": null,
-        "strIngredient14": null,
-        "strIngredient15": null,
-        "strMeasure1": "2 oz",
-        "strMeasure2": "1 oz",
-        "strMeasure3": "1 oz",
-        "strMeasure4": "",
-        "strMeasure5": "",
-        "strMeasure6": "",
-        "strMeasure7": "",
-        "strMeasure8": null,
-        "strMeasure9": null,
-        "strMeasure10": null,
-        "strMeasure11": null,
-        "strMeasure12": null,
-        "strMeasure13": null,
-        "strMeasure14": null,
-        "strMeasure15": null,
-        "strImageSource": null,
-        "strImageAttribution": null,
-        "strCreativeCommonsConfirmed": "No",
-        "dateModified": null
-    }
-]
+    }]
 
 describe('Testa a pagina drink-in-progress', () => {
     // afterEach(() => global.fetch.mockRestore())
@@ -123,7 +67,8 @@ describe('Testa a pagina drink-in-progress', () => {
     });
     test('testando clipBoard', async () => {
         jest.spyOn(global, "fetch").mockImplementation(mockFetch) 
-        renderWithRouter(<App />, ['/drinks/178319/in-progress']);    
+        renderWithRouter(<App />, ['/drinks/178319/in-progress']);
+        
         Object.assign(navigator, {
           clipboard: {
             writeText: () => {},
@@ -134,6 +79,30 @@ describe('Testa a pagina drink-in-progress', () => {
         userEvent.click(inputCompartilhar)
         expect(screen.getByText(/Link Copied/i))
         expect(navigator.clipboard.writeText).toBeCalled()
-      });
-    
+    });
+  test('Testa o botão de finalizar', async () => {
+    jest.spyOn(global, "fetch").mockImplementation(mockFetch) 
+    const { history } = renderWithRouter(<App />, ['/drinks/178319/in-progress']);
+    const finishBtn = await screen.findByTestId('finish-recipe-btn');
+    expect(finishBtn).toBeInTheDocument();
+    expect(finishBtn).toBeDisabled();
+    const ingreD0 = await screen.findByRole('checkbox', { name: /hpnotiq 2 oz/i });
+    expect(ingreD0).toBeInTheDocument();
+    expect(ingreD0).not.toBeChecked();
+    const ingreD1 = await screen.findByRole('checkbox', { name: /pineapple juice 1 oz/i })
+    expect(ingreD1).toBeInTheDocument();
+    expect(ingreD1).not.toBeChecked();
+    const ingreD2 = await screen.findByRole('checkbox', { name: /banana liqueur 1 oz/i })
+    expect(ingreD2).toBeInTheDocument();
+    expect(ingreD1).not.toBeChecked();
+    userEvent.click(ingreD0);
+    expect(ingreD0).toBeChecked();
+    userEvent.click(ingreD1);
+    expect(ingreD1).toBeChecked();
+    userEvent.click(ingreD2);
+    expect(ingreD2).toBeChecked();
+    expect(finishBtn).toBeEnabled();
+    userEvent.click(finishBtn);
+    expect(history.location.pathname).toBe('/done-recipes');
+  })
 })

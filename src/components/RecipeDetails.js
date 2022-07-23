@@ -27,10 +27,11 @@ function RecipeDetails({ id, location }) {
       const receitaPronta = lista.cocktails[ideLocal].every((e) => e.checked === true);
       if (receitaPronta && lista.cocktails[ideLocal].length > 0) {
         setFinishedRecipe(false);
-      } else { setFinishedRecipe(true); }
-      if (lista.cocktails[ideLocal]) {
-        setReceitaProgress(true);
-      } else { setReceitaProgress(false); }
+      } else { setFinishedRecipe(true); setReceitaProgress(true); }
+      // if (lista.cocktails[ideLocal]) {
+      //   console.log('123132222');
+      //   setReceitaProgress(true);
+      // } else { setReceitaProgress(false); console.log('uuuuuuuu'); }
     }
   };
 
@@ -41,10 +42,10 @@ function RecipeDetails({ id, location }) {
       const receitaPronta = lista.meals[ideLocal].every((e) => e.checked === true);
       if (receitaPronta && lista.meals[ideLocal].length > 0) {
         setFinishedRecipe(false);
-      } else { setFinishedRecipe(true); }
-      if (lista.meals[ideLocal]) {
-        setReceitaProgress(true);
-      } else { setReceitaProgress(false); }
+      } else { setFinishedRecipe(true); setReceitaProgress(true); }
+    //   if (lista.meals[ideLocal]) {
+    //     setReceitaProgress(true);
+    //   } else { setReceitaProgress(false);  }
     }
   };
 
@@ -226,6 +227,7 @@ function RecipeDetails({ id, location }) {
               className="bntStartRecipe"
               data-testid="start-recipe-btn"
               type="button"
+              name={ receitaProgress ? 'Continue Recipe' : 'Start Recipe' }
               onClick={ redirecionaParaInPrograss }
             >
               {receitaProgress ? 'Continue Recipe' : 'Start Recipe' }

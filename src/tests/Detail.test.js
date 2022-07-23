@@ -241,7 +241,7 @@ describe('testando componenteDetail', () => {
     const btnStart = screen.queryByTestId('start-recipe-btn')
     expect(btnStart).not.toBeInTheDocument()
   });
-  test('testando se o botao exite', async () => {
+  test('testando se o botao exite foods', async () => {
 
     const lista2 = {
       meals: {
@@ -293,6 +293,66 @@ describe('testando componenteDetail', () => {
     jest.spyOn(global, "fetch").mockImplementation(mockFetch)  
     const {history} = renderWithRouter(<App />, ['/foods/52771']);
     const btnStart = await screen.findByTestId('start-recipe-btn')
+    expect(btnStart).toBeInTheDocument()
+  });
+  test('testando se o botao exite drinks', async () => {
+    localStorage.clear()
+    const lista2 = {
+      cocktails: {
+        ['178319']: [
+          {
+              "ingrediente": "Hpnotiq",
+              "checked": true,
+              "quantidade": "2 oz"
+          },
+          {
+              "ingrediente": "Pineapple Juice",
+              "checked": true,
+              "quantidade": "1 oz"
+          },
+          {
+              "ingrediente": "Banana Liqueur",
+              "checked": true,
+              "quantidade": "1 oz"
+          }
+      ]
+      }
+    }
+    localStorage.setItem('inProgressRecipes', JSON.stringify(lista2))
+    jest.spyOn(global, "fetch").mockImplementation(mockFetch)  
+    const {history} = renderWithRouter(<App />, ['/drinks/178319']);
+    const btnStart = screen.queryByTestId('start-recipe-btn')
+    // expect(btnStart).toHaveProperty('name','Continue Recipe')
+    expect(btnStart).not.toBeInTheDocument()
+  });
+  test('testando se o botao exite drinks', async () => {
+    localStorage.clear()
+    const lista2 = {
+      cocktails: {
+        ['178319']: [
+          {
+              "ingrediente": "Hpnotiq",
+              "checked": true,
+              "quantidade": "2 oz"
+          },
+          {
+              "ingrediente": "Pineapple Juice",
+              "checked": true,
+              "quantidade": "1 oz"
+          },
+          {
+              "ingrediente": "Banana Liqueur",
+              "checked": false,
+              "quantidade": "1 oz"
+          }
+      ]
+      }
+    }
+    localStorage.setItem('inProgressRecipes', JSON.stringify(lista2))
+    jest.spyOn(global, "fetch").mockImplementation(mockFetch)  
+    const {history} = renderWithRouter(<App />, ['/drinks/178319']);
+    const btnStart = await screen.findByTestId('start-recipe-btn')
+    expect(btnStart).toHaveProperty('name','Continue Recipe')
     expect(btnStart).toBeInTheDocument()
   });
   test('testando se ao clicar no botao vai para proxima pagina, foods', async () => {
