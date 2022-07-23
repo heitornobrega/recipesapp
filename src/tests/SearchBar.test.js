@@ -9,16 +9,7 @@ import f from './mocks/firstLetterMealsF'
 import mockFetch from '../../cypress/mocks/fetch'
 
 describe('Testando Componente SearchBar', () => {
-  // beforeEach(() => {
-  //   jest.spyOn(global, "fetch").mockImplementation(() =>
-  //   Promise.resolve({
-  //     json: () => Promise.resolve(meals)
-  //   }))
-  // })
 
-  // afterEach(() => {
-  //   jest.clearAllMocks()
-  // })
 
   test('Verificando se todos elementos estão na tela', () => {
     renderWithRouter(<App />, ['/foods']);
@@ -57,7 +48,6 @@ describe('Testando Componente SearchBar', () => {
     }))
 
     const firsImg = await screen.findByRole('img', {  name: /leblebi soup/i})
-    // const secondImg = await screen.findByRole('img', {  name: /red peas soup/i})
     
     const alImg = await screen.findAllByRole('img')
    expect(alImg).toHaveLength(16)
@@ -80,18 +70,8 @@ describe('Testando Componente SearchBar', () => {
    expect(inputText).toBeInTheDocument()  
    expect(btnSearch).toBeInTheDocument()
    userEvent.click(radioFirstLetter)
-  //  userEvent.type(inputText, 'f')
-  // userEvent.click(btnSearch)
-  // jest.clearAllMocks()
-  // jest.spyOn(global, "fetch").mockImplementation(() =>
-  // Promise.resolve({
-  //   json: () => Promise.resolve(f)
-  // }))
     const firsImg = await screen.findByRole('img', {  name: /fish pie/i}, {timeout: 4000})
-  //   const secondImg = await screen.findByText(/fettucine alfredo/i)
-    
-  //   const alImg = await screen.findAllByRole('img')
-  //  expect(alImg).toHaveLength(16)
+
 
    
   });

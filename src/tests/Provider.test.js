@@ -129,7 +129,6 @@ describe('Provider', () => {
    const btnfilter = await screen.findByTestId('Dessert-category-filter')
    expect(btnfilter).toBeInTheDocument()
     userEvent.click(btnfilter)
-    // const card1 = await screen.findByRole('img', {  name: /apam balik/i})
     const card2 = await screen.findByRole('img', {  name: /apple & blackberry crumble/i})
     const card3 = await screen.findByRole('img', {  name: /apple frangipan tart/i})
     const card4 = await screen.findByRole('img', {  name: /bakewell tart/i})
@@ -199,8 +198,7 @@ describe('Provider', () => {
     const card3 = await screen.findByRole('img', { name: /50\/50/i })  
     expect(card1).toBeInTheDocument()
     expect(card2).toBeInTheDocument()
-    expect(card3).toBeInTheDocument()
-    // expect(await screen.findAllByRole('img')).toHaveLength(5)   
+    expect(card3).toBeInTheDocument()  
 
   })
   test('Verificando o botao cocktail, page drinks', async () => {
@@ -215,8 +213,7 @@ describe('Provider', () => {
     const card3 = await screen.findByRole('img', { name: /747 drink/i })
     expect(card1).toBeInTheDocument()
     expect(card2).toBeInTheDocument()
-    expect(card3).toBeInTheDocument()
-    // expect(await screen.findAllByRole('img')).toHaveLength(5)   
+    expect(card3).toBeInTheDocument()  
 
   })
   test('Verificando o botao shake, page drinks', async () => {
@@ -237,8 +234,7 @@ describe('Provider', () => {
     })
     expect(card1).toBeInTheDocument()
     expect(card2).toBeInTheDocument()
-    expect(card3).toBeInTheDocument()
-    // expect(await screen.findAllByRole('img')).toHaveLength(5)   
+    expect(card3).toBeInTheDocument()  
 
   })
   test('Verificando o botao shake, page drinks', async () => {
@@ -268,24 +264,15 @@ describe('Provider', () => {
     userEvent.type(inputText, 'Arrabiata')
 
     const inputRadioName = screen.getByRole('radio', {  name: /name/i})
-    // const inputBolado = screen.getByTestId('ingredient-search-radio')
-    // console.log(inputRadioName)
     userEvent.click(inputRadioName)
 
     const inputSearch = screen.getByTestId('exec-search-btn')
 
     userEvent.click(inputSearch)
-    console.log(history.location.pathname);
     await waitFor(() => {
       expect(history.location.pathname).toBe('/foods/52771')
     })
-  //   const card1 = await screen.findByRole('img', { name: /castillian hot chocolate/i })
-  //   const card2 = await screen.findByRole('img', { name: /chocolate beverage/i })
-  //   const card3 = await screen.findByRole('img', { name: /chocolate drink/i })
-  //   expect(card1).toBeInTheDocument()
-  //   expect(card2).toBeInTheDocument()
-  //   expect(card3).toBeInTheDocument()
-  //   expect(await screen.findAllByRole('img')).toHaveLength(5)   
+  
 
   })
   test('Verificando ao achar 1 item se vai para pagina de detalhes, drinks', async () => {
@@ -309,14 +296,7 @@ describe('Provider', () => {
     const titleDrinkPage = screen.getByRole('heading', {  name: /aquamarine/i})
     expect(titleDrinkPage).toBeInTheDocument()
   })
-
-    // const card1 = await screen.findByRole('img', { name: /castillian hot chocolate/i })
-    // const card2 = await screen.findByRole('img', { name: /chocolate beverage/i })
-    // const card3 = await screen.findByRole('img', { name: /chocolate drink/i })
-    // expect(card1).toBeInTheDocument()
-    // expect(card2).toBeInTheDocument()
-    // expect(card3).toBeInTheDocument()
-    // expect(await screen.findAllByRole('img')).toHaveLength(5)   
+ 
 
   })
 

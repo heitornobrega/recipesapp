@@ -21,31 +21,22 @@ function RecipeDetails({ id, location }) {
   const [finishedRecipe, setFinishedRecipe] = useState(true);
 
   const recipeProgressDrink = (array, ideLocal) => {
-    const lista = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (lista) {
-      console.log('drinks', lista);
-      const receitaPronta = lista.cocktails[ideLocal].every((e) => e.checked === true);
-      if (receitaPronta && lista.cocktails[ideLocal].length > 0) {
+    const lista = JSON.parse(localStorage.getItem('inProgressRecipes'))?.cocktails || {};
+    if (lista[ideLocal]) {
+      const receitaPronta = lista[ideLocal].every((e) => e.checked === true);
+      if (receitaPronta && lista[ideLocal].length > 0) {
         setFinishedRecipe(false);
       } else { setFinishedRecipe(true); setReceitaProgress(true); }
-      // if (lista.cocktails[ideLocal]) {
-      //   console.log('123132222');
-      //   setReceitaProgress(true);
-      // } else { setReceitaProgress(false); console.log('uuuuuuuu'); }
     }
   };
 
   const recipeProgressFood = (array, ideLocal) => {
-    const lista = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (lista) {
-      console.log('foods', lista);
-      const receitaPronta = lista.meals[ideLocal].every((e) => e.checked === true);
-      if (receitaPronta && lista.meals[ideLocal].length > 0) {
+    const lista = JSON.parse(localStorage.getItem('inProgressRecipes'))?.meals || {};
+    if (lista[ideLocal]) {
+      const receitaPronta = lista[ideLocal].every((e) => e.checked === true);
+      if (receitaPronta && lista[ideLocal].length > 0) {
         setFinishedRecipe(false);
       } else { setFinishedRecipe(true); setReceitaProgress(true); }
-    //   if (lista.meals[ideLocal]) {
-    //     setReceitaProgress(true);
-    //   } else { setReceitaProgress(false);  }
     }
   };
 
@@ -59,7 +50,7 @@ function RecipeDetails({ id, location }) {
   const fetchId = async (idFood) => {
     const vinte = 20;
     const seis = 6;
-    if (location.pathname === `/drinks/${id}`) {
+    if (location.pathname === `/drinks/${idFood}`) {
       const drink = await fetchDrinksId(idFood);
       const newArray = [];
       for (let count = 1; count <= vinte; count += 1) {
@@ -76,9 +67,9 @@ function RecipeDetails({ id, location }) {
       setRecomendacoes(foods);
       setIngredients(newArray);
       setDrinkOuFoods(drink.drinks);
-      recipeProgressDrink(newArray, id);
+      recipeProgressDrink(newArray, idFood);
     }
-    if (location.pathname === `/foods/${id}`) {
+    if (location.pathname === `/foods/${idFood}`) {
       const food = await fetchFoodsId(idFood);
       const newArray = [];
       for (let count = 1; count <= vinte; count += 1) {
@@ -94,7 +85,7 @@ function RecipeDetails({ id, location }) {
       setRecomendacoes(drinksSlice);
       setIngredients(newArray);
       setDrinkOuFoods(food.meals);
-      recipeProgressFood(newArray, id);
+      recipeProgressFood(newArray, idFood);
     }
     isChecked(id);
   };
