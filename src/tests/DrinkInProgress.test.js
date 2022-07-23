@@ -123,8 +123,7 @@ describe('Testa a pagina drink-in-progress', () => {
     });
     test('testando clipBoard', async () => {
         jest.spyOn(global, "fetch").mockImplementation(mockFetch) 
-        renderWithRouter(<App />, ['/drinks/178319/in-progress']);
-        
+        renderWithRouter(<App />, ['/drinks/178319/in-progress']);    
         Object.assign(navigator, {
           clipboard: {
             writeText: () => {},
