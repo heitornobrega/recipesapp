@@ -128,56 +128,66 @@ function RecipeDetails({ id, location }) {
     <section className="recipeDetails">
       {drinkOuFoods.length > 0 && drinkOuFoods.map((elemento) => (
         <Fragment key={ `${elemento.strDrinkThumb}fragment` }>
-          <div>
+          <div className="recipeContainerImg">
             <img
               data-testid="recipe-photo"
               src={ elemento.strDrinkThumb || elemento.strMealThumb }
               alt={ elemento.strDrinkThumb || elemento.strMealThumb }
             />
           </div>
-          <h1 data-testid="recipe-title">{ elemento.strDrink || elemento.strMeal}</h1>
-          <div data-testid="recipe-category">
-            {elemento.strAlcoholic
-          || elemento.strCategory}
 
+          <div className="containerTitulo">
+            <h1 data-testid="recipe-title">
+              { elemento.strDrink
+                || elemento.strMeal}
+            </h1>
+            <div>
+              <label htmlFor="favorite">
+                <input
+                  type="image"
+                  src={ favorite ? blackHeartIcon : whiteHeartIcon }
+                  alt="favorite"
+                  name="favorite"
+                  id="favorite"
+                  onClick={ favoritaReceita }
+                  data-testid="favorite-btn"
+                />
+              </label>
+              <input
+                data-testid="share-btn"
+                type="image"
+                onClick={ compartilhar }
+                src={ shareIcon }
+                alt={ shareIcon }
+              />
+            </div>
           </div>
-          <label htmlFor="favorite">
-            <input
-              type="image"
-              src={ favorite ? blackHeartIcon : whiteHeartIcon }
-              alt="favorite"
-              name="favorite"
-              id="favorite"
-              onClick={ favoritaReceita }
-              data-testid="favorite-btn"
-            />
-          </label>
-          <input
-            data-testid="share-btn"
-            type="image"
-            onClick={ compartilhar }
-            src={ shareIcon }
-            alt={ shareIcon }
+          <span className="DetailCategory" data-testid="recipe-category">
+            {elemento.strAlcoholic
+                || elemento.strCategory}
 
-          />
-          { LinkCopied && <span>Link copied!</span>}
-          <ul>
-            <h3>ingredientes</h3>
+          </span>
+          { LinkCopied && <span className="LinkCopiado">Link copied!</span>}
+
+          <ul className="listaIngredientes">
+            <h3>Ingredientes</h3>
             {ingredients.map((e, i) => (
               <div key={ e.ingrediente + i }>
                 <li
                   data-testid={ `${i}-ingredient-name-and-measure` }
                 >
                   {`${e.ingrediente}${e.medida}`}
-
                 </li>
               </div>
             ))}
           </ul>
-          <div data-testid="instructions">{elemento.strInstructions}</div>
+          <div className="instrucoes">
+            <h3>Instruções</h3>
+            <p data-testid="instructions">{elemento.strInstructions}</p>
+          </div>
           {elemento.strYoutube
           && (
-            <div data-testid="video">
+            <div data-testid="video" className="videoYT">
               <iframe
                 width="250"
                 height="200"
@@ -192,13 +202,14 @@ function RecipeDetails({ id, location }) {
 
             </div>
           )}
+          <h3 className="recomendacoes">Recomendações</h3>
           <div className="carousell">
             {recomendacoes.length > 0 && recomendacoes.map((element, index) => (
               <div
                 data-testid={ `${index}-recomendation-card` }
                 key={ element.idMeal || element.idDrink }
               >
-                <div>
+                <div className="containerCarroussel">
                   <img
                     src={ element.strMealThumb || element.strDrinkThumb }
                     alt={ element.strDrink || element.strMeal }

@@ -34,43 +34,56 @@ function CardDoneRecipe({
   };
 
   return (
-    <div>
+    <section className="cardFavorite">
+
       <Link key={ id } to={ `/${type}s/${id}` }>
-        <div>
+        <div className="containerImg">
           <img
             data-testid={ `${index}-horizontal-image` }
             src={ image }
             alt={ `recipe-done-${index}` }
             className="imgMenor"
           />
-          <p data-testid={ `${index}-horizontal-top-text` }>
-            { `${recipeType} - ${category}` }
-          </p>
-          <h3 data-testid={ `${index}-horizontal-name` }>
-            { name }
-          </h3>
+
         </div>
       </Link>
-      <input
-        data-testid={ `${index}-horizontal-share-btn` }
-        type="image"
-        onClick={ copyLink }
-        src={ shareIcon }
-        alt={ shareIcon }
-      />
-      { copyConditional && <p>Link copied!</p>}
-      <label htmlFor="favorite">
-        <input
-          type="image"
-          src={ blackHeartIcon }
-          alt="favorite"
-          name="favorite"
-          id="favorite"
-          onClick={ favoritaReceita }
-          data-testid={ `${index}-horizontal-favorite-btn` }
-        />
-      </label>
-    </div>
+
+      <div className="containerInfosFav">
+        <p data-testid={ `${index}-horizontal-top-text` }>
+          { `${recipeType} - ${category}` }
+        </p>
+        <h3 data-testid={ `${index}-horizontal-name` }>
+          { name }
+        </h3>
+        <div className="inputFavECompart">
+          <input
+            data-testid={ `${index}-horizontal-share-btn` }
+            type="image"
+            onClick={ copyLink }
+            src={ shareIcon }
+            alt={ shareIcon }
+          />
+          { copyConditional && (
+            <p
+              className="LinkCopiado favoriteRecipesCopy"
+            >
+              Link copied!
+            </p>
+          )}
+          <label htmlFor="favorite">
+            <input
+              type="image"
+              src={ blackHeartIcon }
+              alt="favorite"
+              name="favorite"
+              id="favorite"
+              onClick={ favoritaReceita }
+              data-testid={ `${index}-horizontal-favorite-btn` }
+            />
+          </label>
+        </div>
+      </div>
+    </section>
 
   );
 }
