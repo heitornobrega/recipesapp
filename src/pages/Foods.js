@@ -10,20 +10,22 @@ function Foods() {
   return (
     <>
       <Header title="Foods" isTrue foods />
-      {alert
-        ? global.alert('Your search must have only 1 (one) character') : (
-          dataFoods.length > 0 && dataFoods.map((element, idx) => (
-            <Link key={ element.idMeal + idx } to={ `/foods/${element.idMeal}` }>
-              <div>
-                <RecipieCard
-                  idx={ idx }
-                  recipeName={ element.strMeal }
-                  strMealThumb={ element.strMealThumb }
-                />
-              </div>
-            </Link>
-          ))
-        ) }
+      <div className="divCards">
+        {alert
+          ? global.alert('Your search must have only 1 (one) character') : (
+            dataFoods.length > 0 && dataFoods.map((element, idx) => (
+              <Link key={ element.idMeal + idx } to={ `/foods/${element.idMeal}` }>
+                <div>
+                  <RecipieCard
+                    idx={ idx }
+                    recipeName={ element.strMeal }
+                    strMealThumb={ element.strMealThumb }
+                  />
+                </div>
+              </Link>
+            ))
+          ) }
+      </div>
       <Footer />
     </>
   );
