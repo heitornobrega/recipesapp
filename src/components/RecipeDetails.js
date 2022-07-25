@@ -21,30 +21,22 @@ function RecipeDetails({ id, location }) {
   const [finishedRecipe, setFinishedRecipe] = useState(true);
 
   const recipeProgressDrink = (array, ideLocal) => {
-    const lista = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (lista) {
-      console.log('drinks', lista);
-      const receitaPronta = lista.cocktails[ideLocal].every((e) => e.checked === true);
-      if (receitaPronta && lista.cocktails[ideLocal].length > 0) {
+    const lista = JSON.parse(localStorage.getItem('inProgressRecipes'))?.cocktails || {};
+    if (lista[ideLocal]) {
+      const receitaPronta = lista[ideLocal].every((e) => e.checked === true);
+      if (receitaPronta && lista[ideLocal].length > 0) {
         setFinishedRecipe(false);
-      } else { setFinishedRecipe(true); }
-      if (lista.cocktails[ideLocal]) {
-        setReceitaProgress(true);
-      } else { setReceitaProgress(false); }
+      } else { setFinishedRecipe(true); setReceitaProgress(true); }
     }
   };
 
   const recipeProgressFood = (array, ideLocal) => {
-    const lista = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (lista) {
-      console.log('foods', lista);
-      const receitaPronta = lista.meals[ideLocal].every((e) => e.checked === true);
-      if (receitaPronta && lista.meals[ideLocal].length > 0) {
+    const lista = JSON.parse(localStorage.getItem('inProgressRecipes'))?.meals || {};
+    if (lista[ideLocal]) {
+      const receitaPronta = lista[ideLocal].every((e) => e.checked === true);
+      if (receitaPronta && lista[ideLocal].length > 0) {
         setFinishedRecipe(false);
-      } else { setFinishedRecipe(true); }
-      if (lista.meals[ideLocal]) {
-        setReceitaProgress(true);
-      } else { setReceitaProgress(false); }
+      } else { setFinishedRecipe(true); setReceitaProgress(true); }
     }
   };
 
@@ -58,7 +50,7 @@ function RecipeDetails({ id, location }) {
   const fetchId = async (idFood) => {
     const vinte = 20;
     const seis = 6;
-    if (location.pathname === `/drinks/${id}`) {
+    if (location.pathname === `/drinks/${idFood}`) {
       const drink = await fetchDrinksId(idFood);
       const newArray = [];
       for (let count = 1; count <= vinte; count += 1) {
@@ -75,9 +67,9 @@ function RecipeDetails({ id, location }) {
       setRecomendacoes(foods);
       setIngredients(newArray);
       setDrinkOuFoods(drink.drinks);
-      recipeProgressDrink(newArray, id);
+      recipeProgressDrink(newArray, idFood);
     }
-    if (location.pathname === `/foods/${id}`) {
+    if (location.pathname === `/foods/${idFood}`) {
       const food = await fetchFoodsId(idFood);
       const newArray = [];
       for (let count = 1; count <= vinte; count += 1) {
@@ -93,7 +85,7 @@ function RecipeDetails({ id, location }) {
       setRecomendacoes(drinksSlice);
       setIngredients(newArray);
       setDrinkOuFoods(food.meals);
-      recipeProgressFood(newArray, id);
+      recipeProgressFood(newArray, idFood);
     }
     isChecked(id);
   };
@@ -136,56 +128,66 @@ function RecipeDetails({ id, location }) {
     <section className="recipeDetails">
       {drinkOuFoods.length > 0 && drinkOuFoods.map((elemento) => (
         <Fragment key={ `${elemento.strDrinkThumb}fragment` }>
-          <div>
+          <div className="recipeContainerImg">
             <img
               data-testid="recipe-photo"
               src={ elemento.strDrinkThumb || elemento.strMealThumb }
               alt={ elemento.strDrinkThumb || elemento.strMealThumb }
             />
           </div>
-          <h1 data-testid="recipe-title">{ elemento.strDrink || elemento.strMeal}</h1>
-          <div data-testid="recipe-category">
-            {elemento.strAlcoholic
-          || elemento.strCategory}
 
+          <div className="containerTitulo">
+            <h1 data-testid="recipe-title">
+              { elemento.strDrink
+                || elemento.strMeal}
+            </h1>
+            <div>
+              <label htmlFor="favorite">
+                <input
+                  type="image"
+                  src={ favorite ? blackHeartIcon : whiteHeartIcon }
+                  alt="favorite"
+                  name="favorite"
+                  id="favorite"
+                  onClick={ favoritaReceita }
+                  data-testid="favorite-btn"
+                />
+              </label>
+              <input
+                data-testid="share-btn"
+                type="image"
+                onClick={ compartilhar }
+                src={ shareIcon }
+                alt={ shareIcon }
+              />
+            </div>
           </div>
-          <label htmlFor="favorite">
-            <input
-              type="image"
-              src={ favorite ? blackHeartIcon : whiteHeartIcon }
-              alt="favorite"
-              name="favorite"
-              id="favorite"
-              onClick={ favoritaReceita }
-              data-testid="favorite-btn"
-            />
-          </label>
-          <input
-            data-testid="share-btn"
-            type="image"
-            onClick={ compartilhar }
-            src={ shareIcon }
-            alt={ shareIcon }
+          <span className="DetailCategory" data-testid="recipe-category">
+            {elemento.strAlcoholic
+                || elemento.strCategory}
 
-          />
-          { LinkCopied && <span>Link copied!</span>}
-          <ul>
-            <h3>ingredientes</h3>
+          </span>
+          { LinkCopied && <span className="LinkCopiado">Link copied!</span>}
+          <h3 id="ingredientesTitulo">Ingredientes</h3>
+          <ul className="listaIngredientes">
+
             {ingredients.map((e, i) => (
               <div key={ e.ingrediente + i }>
                 <li
                   data-testid={ `${i}-ingredient-name-and-measure` }
                 >
                   {`${e.ingrediente}${e.medida}`}
-
                 </li>
               </div>
             ))}
           </ul>
-          <div data-testid="instructions">{elemento.strInstructions}</div>
+          <div className="instrucoes">
+            <h3>Instruções</h3>
+            <p data-testid="instructions">{elemento.strInstructions}</p>
+          </div>
           {elemento.strYoutube
           && (
-            <div data-testid="video">
+            <div data-testid="video" className="videoYT">
               <iframe
                 width="250"
                 height="200"
@@ -200,13 +202,14 @@ function RecipeDetails({ id, location }) {
 
             </div>
           )}
+          <h3 className="recomendacoes">Recomendações</h3>
           <div className="carousell">
             {recomendacoes.length > 0 && recomendacoes.map((element, index) => (
               <div
                 data-testid={ `${index}-recomendation-card` }
                 key={ element.idMeal || element.idDrink }
               >
-                <div>
+                <div className="containerCarroussel">
                   <img
                     src={ element.strMealThumb || element.strDrinkThumb }
                     alt={ element.strDrink || element.strMeal }
@@ -226,6 +229,7 @@ function RecipeDetails({ id, location }) {
               className="bntStartRecipe"
               data-testid="start-recipe-btn"
               type="button"
+              name={ receitaProgress ? 'Continue Recipe' : 'Start Recipe' }
               onClick={ redirecionaParaInPrograss }
             >
               {receitaProgress ? 'Continue Recipe' : 'Start Recipe' }

@@ -44,11 +44,11 @@ describe('Testa a pagina drink-in-progress', () => {
         renderWithRouter(<App />, ['/drinks/178319/in-progress']);
         jest.spyOn(global, "fetch").mockImplementation(mockFetch)   
         const inputFavorite = await screen.findByTestId('favorite-btn')
-        expect(inputFavorite).toHaveProperty('alt', "blackHeartIcon")
+        expect(inputFavorite).toHaveProperty('src', "http://localhost/blackHeartIcon.svg")
         const recebeLocalStorageFavoritado = JSON.parse(localStorage.getItem('favoriteRecipes'))
         expect(recebeLocalStorageFavoritado).toHaveLength(1)
         userEvent.click(inputFavorite)
-        expect(inputFavorite).toHaveProperty('alt', "whiteHeartIcon")
+        expect(inputFavorite).toHaveProperty('src', "http://localhost/whiteHeartIcon.svg")
         const recebeLocalStorageSemFavortar = JSON.parse(localStorage.getItem('favoriteRecipes'))     
         expect(recebeLocalStorageSemFavortar).toHaveLength(0)
     });
@@ -57,11 +57,11 @@ describe('Testa a pagina drink-in-progress', () => {
         jest.spyOn(global, "fetch").mockImplementation(mockFetch) 
         renderWithRouter(<App />, ['/drinks/178319/in-progress']);      
         const inputFavorite = await screen.findByTestId('favorite-btn')
-        expect(inputFavorite).toHaveProperty('alt', "whiteHeartIcon")
+        expect(inputFavorite).toHaveProperty('src', "http://localhost/whiteHeartIcon.svg")
         const recebeLocalStorageFavoritado = JSON.parse(localStorage.getItem('favoriteRecipes'))
         expect(recebeLocalStorageFavoritado).toHaveLength(0)
         userEvent.click(inputFavorite)
-        expect(inputFavorite).toHaveProperty('alt', "blackHeartIcon")
+        expect(inputFavorite).toHaveProperty('src', "http://localhost/blackHeartIcon.svg")
         const recebeLocalStorageSemFavortar = JSON.parse(localStorage.getItem('favoriteRecipes'))     
         expect(recebeLocalStorageSemFavortar).toHaveLength(1)
     });

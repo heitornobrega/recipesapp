@@ -10,7 +10,7 @@ function Favorite() {
 
   const getArrayRecipes = () => {
     if (favoriteList.length === 0 || favoriteList === null) {
-      return <p>Nenhuma receita!</p>;
+      return <p className="nenhumaReceita">Nenhuma receita!</p>;
     }
     if (filterBtn === 'all') {
       return (favoriteList.map((element, index) => (
@@ -53,33 +53,35 @@ function Favorite() {
   };
 
   return (
-    <>
+    <section className="favoriteRecipes">
       <Header title="Favorite Recipes" isTrue={ false } />
-      <button
-        type="button"
-        data-testid="filter-by-all-btn"
-        onClick={ () => setFilterBtn('all') }
-      >
-        All
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-food-btn"
-        onClick={ () => setFilterBtn('food') }
-      >
-        Food
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-drink-btn"
-        onClick={ () => setFilterBtn('drink') }
-      >
-        Drinks
-      </button>
-      <div>
-        { getArrayRecipes() }
+      <div className="containerBtnFavorites">
+        <button
+          type="button"
+          data-testid="filter-by-all-btn"
+          onClick={ () => setFilterBtn('all') }
+        >
+          All
+        </button>
+        <button
+          type="button"
+          data-testid="filter-by-food-btn"
+          onClick={ () => setFilterBtn('food') }
+        >
+          Food
+        </button>
+        <button
+          type="button"
+          data-testid="filter-by-drink-btn"
+          onClick={ () => setFilterBtn('drink') }
+        >
+          Drinks
+        </button>
+        <div>
+          { getArrayRecipes() }
+        </div>
       </div>
-    </>
+    </section>
 
   );
 }

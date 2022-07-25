@@ -13,42 +13,51 @@ function Profile() {
   };
 
   return (
-    <>
+    <section className="containerProfile">
       <Header title="Profile" isTrue={ false } />
       <div>
-        <h3 data-testid="profile-email">{`email: ${userEmail.email}`}</h3>
-        <button
-          data-testid="profile-done-btn"
-          type="button"
-          onClick={ () => handleClick('done-recipes') }
-        >
-          Done Recipes
-        </button>
-        <button
-          data-testid="profile-favorite-btn"
-          type="button"
-          onClick={ () => handleClick('favorite-recipes') }
-        >
-          Favorite Recipes
-        </button>
-        <button
-          data-testid="profile-logout-btn"
-          type="button"
-          onClick={ () => {
-            localStorage.removeItem('mealsToken');
-            localStorage.removeItem('cocktailsToken');
-            localStorage.removeItem('doneRecipes');
-            localStorage.removeItem('favoriteRecipes');
-            localStorage.removeItem('inProgressRecipes');
-            localStorage.removeItem('user');
-            handleClick();
-          } }
-        >
-          Logout
-        </button>
+        <div className="emailProfile">
+          {/* <span>Email</span> */}
+          <h3 data-testid="profile-email">
+
+            {userEmail.email}
+          </h3>
+        </div>
+
+        <div className="buttonsProfile">
+          <button
+            data-testid="profile-done-btn"
+            type="button"
+            onClick={ () => handleClick('done-recipes') }
+          >
+            Done Recipes
+          </button>
+          <button
+            data-testid="profile-favorite-btn"
+            type="button"
+            onClick={ () => handleClick('favorite-recipes') }
+          >
+            Favorite Recipes
+          </button>
+          <button
+            data-testid="profile-logout-btn"
+            type="button"
+            onClick={ () => {
+              localStorage.removeItem('mealsToken');
+              localStorage.removeItem('cocktailsToken');
+              localStorage.removeItem('doneRecipes');
+              localStorage.removeItem('favoriteRecipes');
+              localStorage.removeItem('inProgressRecipes');
+              localStorage.removeItem('user');
+              handleClick();
+            } }
+          >
+            Logout
+          </button>
+        </div>
       </div>
       <Footer />
-    </>
+    </section>
   );
 }
 

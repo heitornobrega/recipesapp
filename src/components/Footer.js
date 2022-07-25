@@ -9,26 +9,29 @@ function Footer() {
   const history = useHistory();
 
   return (
-    <div data-testid="footer" className="footer">
-      <button
-        type="button"
+    <section data-testid="footer" className="footer">
+      <input
+        type="image"
+        src={ drinkIcon }
+        alt="drink-img"
+        data-testid="drinks-bottom-btn"
         onClick={ () => {
           setobjSearchFoods({ searchRadio: '', drinks: true });
           history.push('/drinks');
         } }
-      >
-        <img src={ drinkIcon } alt="drink-img" data-testid="drinks-bottom-btn" />
-      </button>
-      <button
-        type="button"
+      />
+
+      <input
+        type="image"
+        src={ mealIcon }
+        alt="meal-img"
+        data-testid="food-bottom-btn"
         onClick={ () => {
           setobjSearchFoods({ searchRadio: '', foods: true });
           history.push('/foods');
         } }
-      >
-        <img src={ mealIcon } alt="meal-img" data-testid="food-bottom-btn" />
-      </button>
-    </div>
+      />
+    </section>
   );
 }
 
