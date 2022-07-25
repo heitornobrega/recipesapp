@@ -133,7 +133,7 @@ function FoodInProgress() {
               <input
                 type="image"
                 src={ favorite ? blackHeartIcon : whiteHeartIcon }
-                alt="favorite"
+                alt={ favorite ? 'blackHeartIcon' : 'whiteHeartIcon' }
                 name="favorite"
                 id="favorite"
                 onClick={ favoritaReceita }
