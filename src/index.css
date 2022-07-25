@@ -11,11 +11,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('http://s2.glbimg.com/pkOw6LCsnK72qwmKmozdovs72JM=/620x455/e.glbimg.com/og/ed/f/original/2017/01/11/livro_de_receita.jpg');
+  /* background-image: url('http://s2.glbimg.com/pkOw6LCsnK72qwmKmozdovs72JM=/620x455/e.glbimg.com/og/ed/f/original/2017/01/11/livro_de_receita.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-size: 100% 100%;
+  background-size: 100% 100%; */
 }
 
 .login-container {
@@ -564,4 +564,23 @@ header{
   border-radius: 50%;
   margin: 0px 5px;
   border: 2px solid black;
+}
+
+/* foods list */
+
+.divCards {
+  background-color: yellowgreen;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.recipe-card {
+  margin-top: 20px;
+  text-align: center;
+  width: 150px;
+}
+
+.recipe-card img {
+  border-radius: 10px;
 }
