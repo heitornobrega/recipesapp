@@ -10,15 +10,25 @@ function Header({ title, isTrue, foods, drinks }) {
   const [displayMenu, setDisplayMenu] = useState(false);
   return (
     <header>
-      <Link to="/profile">
-        <img src={ profileIcon } alt="profile" data-testid="profile-top-btn" />
-      </Link>
-      <h1 data-testid="page-title">{ title}</h1>
-      {isTrue && (
-        <button type="button" onClick={ () => setDisplayMenu(!displayMenu) }>
-          <img src={ searchIcon } alt="search" data-testid="search-top-btn" />
-        </button>
-      )}
+      <div className="contentHeader">
+        <div className="iconHeader">
+          <Link to="/profile">
+            <img src={ profileIcon } alt="profile" data-testid="profile-top-btn" />
+          </Link>
+        </div>
+        <div className="TituloHeader">
+          <h1 data-testid="page-title">{title}</h1>
+        </div>
+        {isTrue && (
+          <button
+            className="buttonSearch"
+            type="button"
+            onClick={ () => setDisplayMenu(!displayMenu) }
+          >
+            <img src={ searchIcon } alt="search" data-testid="search-top-btn" />
+          </button>
+        )}
+      </div>
       {
         (foods || drinks)
       && (displayMenu

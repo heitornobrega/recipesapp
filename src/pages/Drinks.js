@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Mycontext from '../Context/MyContext';
-import RecipieCard from '../components/RecipieCard';
+import RecipieCard from '../components/Recipes';
 
 function Drinks() {
   const { alert, dataDrinks } = useContext(Mycontext);
