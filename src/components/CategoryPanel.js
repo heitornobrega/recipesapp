@@ -25,7 +25,7 @@ function CategoryPanel({ foods: onFoods, drinks: onDrinks }) {
   const firstFiveRecipes = categoryData && categoryData.slice(0, FIRSTS_CATEGORY);
 
   return (
-    <div>
+    <div className="containerCategory">
       <button
         type="button"
         value="All"
