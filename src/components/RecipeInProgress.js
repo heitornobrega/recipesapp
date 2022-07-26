@@ -129,7 +129,8 @@ function RecipeInProgress({ location, id, mealsECocktails }) {
         && (
           <div>
             <img
-              src={ mealOrDrinkInProgress.strMealThumb }
+              src={ mealOrDrinkInProgress.strMealThumb
+                || mealOrDrinkInProgress.strDrinkThumb }
               alt="mealsThumb"
               className="recipiesImg"
               data-testid="recipe-photo"
