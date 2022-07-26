@@ -147,35 +147,18 @@ function RecipeInProgress({ location, id, mealsECocktails }) {
     history.push('/done-recipes');
   };
 
-
   return (
     <div>
       {mealOrDrinkInProgress
         && (
           <div>
-
-            <img
-              src={ mealOrDrinkInProgress.strMealThumb
+            <div className="recipeContainerImg">
+              <img
+                src={ mealOrDrinkInProgress.strMealThumb
                 || mealOrDrinkInProgress.strDrinkThumb }
-              alt="mealsThumb"
-              className="recipiesImg"
-              data-testid="recipe-photo"
-            />
-            <h1
-              data-testid="recipe-title"
-            >
-              { mealOrDrinkInProgress.strMeal || mealOrDrinkInProgress.strDrink }
-            </h1>
-            <label htmlFor="favorite">
-              <input
-                type="image"
-                src={ favorite ? blackHeartIcon : whiteHeartIcon }
-                alt="favorite"
-                name="favorite"
-                id="favorite"
-                onClick={ favoritaReceita }
-                data-testid="favorite-btn"
-
+                alt="mealsThumb"
+                className="recipiesImg"
+                data-testid="recipe-photo"
               />
             </div>
             <div className="containerTitulo">
@@ -198,7 +181,7 @@ function RecipeInProgress({ location, id, mealsECocktails }) {
                     data-testid="favorite-btn"
                   />
                 </label>
-                { LinkCopied && <span>Link copied!</span>}
+                { LinkCopied && <span className="LinkCopiado">Link copied!</span>}
                 <input
                   data-testid="share-btn"
                   type="image"
@@ -240,7 +223,8 @@ function RecipeInProgress({ location, id, mealsECocktails }) {
               <p>{mealOrDrinkInProgress.strInstructions}</p>
             </div>
             <button
-              className="bntStartRecipe finishBtn"
+              className={ disabled ? 'bntStartRecipe finishBtnDisabled'
+                : 'bntStartRecipe finishBtn' }
               data-testid="finish-recipe-btn"
               type="button"
               disabled={ disabled }

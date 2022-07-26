@@ -44,6 +44,7 @@ function Login() {
               id="email"
               onChange={ handleChange }
               data-testid="email-input"
+              placeholder="Email"
             />
           </label>
           <label htmlFor="password">
@@ -54,6 +55,7 @@ function Login() {
               id="password"
               onChange={ handleChange }
               data-testid="password-input"
+              placeholder="Senha"
             />
           </label>
           <button

@@ -294,7 +294,7 @@ code {
   padding: 10px;
   text-align: center;
   justify-content: center;
-  background-color: rgb(135, 199, 38);
+  background-color: rgb(202,144,56);
   font-size: 25px;
   margin-top: 50px;
   font-weight: 600;
@@ -626,6 +626,7 @@ header{
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  margin-bottom: 70px;
   
 }
 .divCards img {
@@ -666,17 +667,21 @@ margin-top: 15px;
   .finishBtn{
     background-color: rgb(202,144,56);
   }
+  .finishBtnDisabled{
+    background-color: rgb(151, 112, 54);
+    color: rgba(175, 175, 175, 0.945);
+  }
   .nenhumaReceita{
     margin-top: 200px;
     text-align: center;
   }
   .containerDone{
     display: flex;
-     width: 330px;
-     height: 150px;
+    width: 330px;
+    height: 150px;
     margin: auto;
     border-radius: 8px;
-box-shadow: 1px 2px 8px rgba(0,0,0,0.65); 
+    box-shadow: 1px 2px 8px rgba(0,0,0,0.65); 
     overflow: hidden;
     margin-top: 15px;
   }
@@ -722,5 +727,7 @@ box-shadow: 1px 2px 8px rgba(0,0,0,0.65);
   .linkCopiedDone{
     top: 15px;
     right: -25px;
+    background-color: rgba(103, 103, 248, 0.884);
+    padding: 4px 6px !important;
   }
 
