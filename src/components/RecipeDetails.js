@@ -168,6 +168,7 @@ function RecipeDetails({ id, location }) {
 
           </span>
           { LinkCopied && <span className="LinkCopiado">Link copied!</span>}
+
           <h3 id="ingredientesTitulo">Ingredientes</h3>
           <ul className="listaIngredientes">
 

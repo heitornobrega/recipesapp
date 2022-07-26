@@ -583,6 +583,7 @@ header{
 
 .recipe-card img {
   border-radius: 10px;
+
 }
 
 #ingredientesTitulo {
@@ -663,3 +664,4 @@ box-shadow: 1px 2px 8px rgba(0,0,0,0.65);
     top: 15px;
     right: -25px;
   }
+

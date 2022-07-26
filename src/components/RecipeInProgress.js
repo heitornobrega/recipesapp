@@ -122,6 +122,7 @@ function RecipeInProgress({ location, id, mealsECocktails }) {
   useEffect(() => {
     isChecked(id);
   }, []);
+
   const saveDoneRecipe = () => {
     const seilaData = new Date();
     const obj = {
@@ -146,11 +147,13 @@ function RecipeInProgress({ location, id, mealsECocktails }) {
     history.push('/done-recipes');
   };
 
+
   return (
     <div>
       {mealOrDrinkInProgress
         && (
           <div>
+
             <div className="recipeContainerImg">
               <img
                 src={ mealOrDrinkInProgress.strMealThumb }
@@ -226,6 +229,7 @@ function RecipeInProgress({ location, id, mealsECocktails }) {
               type="button"
               disabled={ disabled }
               onClick={ () => saveDoneRecipe() }
+
             >
               Finish Recipe
             </button>
