@@ -81,14 +81,17 @@ describe('Testa a pagina food-in-progress', () => {
     test('Testa a apresença dos elementos na página', async () => {
       jest.spyOn(global, "fetch").mockImplementation(mockFetch)   
         renderWithRouter(<App />, ['/foods/52771/in-progress']);
+
         const recipeFoto = await screen.findByTestId('recipe-photo')
         const title =  await screen.findByTestId('recipe-title')
         const ingreD0 = await screen.findByTestId('0-ingredient-step')
         const ingreD1 = await screen.findByTestId('1-ingredient-step')
+
         const intrucao = screen.getByTestId('instructions')
         const finishRecipe = await screen.findByTestId('finish-recipe-btn');
         expect(ingreD0).toBeInTheDocument()
         expect(ingreD1).toBeInTheDocument()
+
         expect(recipeFoto).toBeInTheDocument()
         expect(title).toBeInTheDocument()
         expect(intrucao).toBeInTheDocument()     
@@ -96,6 +99,7 @@ describe('Testa a pagina food-in-progress', () => {
     })
     test('testando a função de desfavoritar uma food', async () => {
         localStorage.setItem('favoriteRecipes', JSON.stringify(mockLocalFood))
+
         renderWithRouter(<App />, ['/foods/52771/in-progress']);
         jest.spyOn(global, "fetch").mockImplementation(mockFetch)   
         const inputFavorite = await screen.findByTestId('favorite-btn')
@@ -179,4 +183,5 @@ describe('Testa a pagina food-in-progress', () => {
       
     });
     
+
 })

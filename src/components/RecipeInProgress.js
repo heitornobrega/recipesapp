@@ -123,11 +123,37 @@ function RecipeInProgress({ location, id, mealsECocktails }) {
     isChecked(id);
   }, []);
 
+  const saveDoneRecipe = () => {
+    const seilaData = new Date();
+    const obj = {
+      id: mealOrDrinkInProgress.idMeal || mealOrDrinkInProgress.idDrink,
+      name: mealOrDrinkInProgress.strMeal || mealOrDrinkInProgress.strDrink,
+      type: mealOrDrinkInProgress.strMeal ? 'food' : 'drink',
+      category: mealOrDrinkInProgress.strCategory,
+      tags: mealOrDrinkInProgress.strTags ? mealOrDrinkInProgress.strTags.split(',') : [],
+      image: mealOrDrinkInProgress.strMealThumb
+        || mealOrDrinkInProgress.strDrinkThumb,
+      nationality: mealOrDrinkInProgress.strArea || '',
+      alcoholicOrNot: mealOrDrinkInProgress.strAlcoholic || '',
+      // eslint-disable-next-line max-len
+      doneDate: `${seilaData.getDate()}/${seilaData.getMonth()}/${seilaData.getFullYear()}`,
+    };
+    if (localStorage.getItem('doneRecipes')) {
+      const receitaDaAnaMaria = JSON.parse(localStorage.getItem('doneRecipes'));
+      localStorage.setItem('doneRecipes', JSON.stringify([...receitaDaAnaMaria, obj]));
+    } else {
+      localStorage.setItem('doneRecipes', JSON.stringify([obj]));
+    }
+    history.push('/done-recipes');
+  };
+
+
   return (
     <div>
       {mealOrDrinkInProgress
         && (
           <div>
+
             <img
               src={ mealOrDrinkInProgress.strMealThumb
                 || mealOrDrinkInProgress.strDrinkThumb }
@@ -149,49 +175,77 @@ function RecipeInProgress({ location, id, mealsECocktails }) {
                 id="favorite"
                 onClick={ favoritaReceita }
                 data-testid="favorite-btn"
+
               />
-            </label>
-            { LinkCopied && <span>Link copied!</span>}
-            <input
-              data-testid="share-btn"
-              type="image"
-              onClick={ compartilhar }
-              src={ shareIcon }
-              alt={ shareIcon }
-            />
-            <div data-testid="recipe-category">
+            </div>
+            <div className="containerTitulo">
+              <div>
+                <h1
+                  data-testid="recipe-title"
+                >
+                  { mealOrDrinkInProgress.strMeal || mealOrDrinkInProgress.strDrink }
+                </h1>
+              </div>
+              <div>
+                <label htmlFor="favorite">
+                  <input
+                    type="image"
+                    src={ favorite ? blackHeartIcon : whiteHeartIcon }
+                    alt="favorite"
+                    name="favorite"
+                    id="favorite"
+                    onClick={ favoritaReceita }
+                    data-testid="favorite-btn"
+                  />
+                </label>
+                { LinkCopied && <span>Link copied!</span>}
+                <input
+                  data-testid="share-btn"
+                  type="image"
+                  onClick={ compartilhar }
+                  src={ shareIcon }
+                  alt={ shareIcon }
+                />
+              </div>
+            </div>
+            <span data-testid="recipe-category" className="DetailCategory">
               {mealOrDrinkInProgress.strCategory || mealOrDrinkInProgress.strAlcoholic}
+            </span>
+            <div className="instrucoes">
+              <h3>Ingredients</h3>
+              <ul className="ingredientsList">
+                {validIngredients && validIngredients.map((ingredient, idx) => (
+                  <li key={ ingredient.ingrediente }>
+                    <label
+                      htmlFor={ ingredient.ingrediente }
+                      className={ ingredient.checked ? 'isChecked' : 'notChecked' }
+                      data-testid={ `${idx}-ingredient-step` }
+                    >
+                      <input
+                        onChange={ (e) => toggleIgredient(e) }
+                        checked={ ingredient.checked }
+                        type="checkbox"
+                        name={ ingredient.ingrediente }
+                        id={ ingredient.ingrediente }
+                      />
+                      {` ${ingredient.ingrediente} ${ingredient.quantidade}`}
+                    </label>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            <ol className="ingredientsList">
-              {validIngredients && validIngredients.map((ingredient, idx) => (
-                <li key={ ingredient.ingrediente }>
-                  <label
-                    htmlFor={ ingredient.ingrediente }
-                    className={ ingredient.checked ? 'isChecked' : 'notChecked' }
-                    data-testid={ `${idx}-ingredient-step` }
-                  >
-                    <input
-                      onChange={ (e) => toggleIgredient(e) }
-                      checked={ ingredient.checked }
-                      type="checkbox"
-                      name={ ingredient.ingrediente }
-                      id={ ingredient.ingrediente }
-                    />
-                    {`${ingredient.ingrediente} ${ingredient.quantidade}`}
-                  </label>
-                </li>
-              ))}
-            </ol>
-
-            <div data-testid="instructions">
-              instrucoes
+            <div data-testid="instructions" className="instrucoes intrucoesMargin">
+              <h3>Instruções</h3>
+              <p>{mealOrDrinkInProgress.strInstructions}</p>
             </div>
             <button
+              className="bntStartRecipe finishBtn"
               data-testid="finish-recipe-btn"
               type="button"
               disabled={ disabled }
-              onClick={ () => { history.push('/done-recipes'); } }
+              onClick={ () => saveDoneRecipe() }
+
             >
               Finish Recipe
             </button>
