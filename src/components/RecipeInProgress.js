@@ -154,12 +154,28 @@ function RecipeInProgress({ location, id, mealsECocktails }) {
         && (
           <div>
 
-            <div className="recipeContainerImg">
-              <img
-                src={ mealOrDrinkInProgress.strMealThumb }
-                alt="mealsThumb"
-                className="recipiesImg imgMenor"
-                data-testid="recipe-photo"
+            <img
+              src={ mealOrDrinkInProgress.strMealThumb
+                || mealOrDrinkInProgress.strDrinkThumb }
+              alt="mealsThumb"
+              className="recipiesImg"
+              data-testid="recipe-photo"
+            />
+            <h1
+              data-testid="recipe-title"
+            >
+              { mealOrDrinkInProgress.strMeal || mealOrDrinkInProgress.strDrink }
+            </h1>
+            <label htmlFor="favorite">
+              <input
+                type="image"
+                src={ favorite ? blackHeartIcon : whiteHeartIcon }
+                alt="favorite"
+                name="favorite"
+                id="favorite"
+                onClick={ favoritaReceita }
+                data-testid="favorite-btn"
+
               />
             </div>
             <div className="containerTitulo">

@@ -18,7 +18,20 @@ body {
   background-size: 100% 100%; */
 }
 
+.container{
+  width: 100%;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  background-color: #f8caa5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('https://i.pinimg.com/originals/95/f3/4e/95f34e9bc588226a8c91a1be5bbebd67.png');
+}
+
 .login-container {
+ 
   display: flex;
   flex-direction: column;
   /* align-self: center; */
@@ -28,7 +41,7 @@ body {
   background-color: #fbfbfb;
   height: 310px;
   width: 300px;
-  margin: 8rem auto 9.1rem auto;
+  /* margin: 8rem auto 9.1rem auto; */
   text-align: center;
   border-radius: 8px;
   box-shadow: 1px 2px 8px rgba(0,0,0,0.65);
@@ -36,6 +49,25 @@ body {
 
 .login-container h1 {
   margin-bottom: 50px;
+  font-weight: 600;
+  color: #f1842b;
+  text-shadow: 2px 2px 5px #854c1daf;
+  z-index: 1;
+}
+
+
+.imgHeader{
+  width: 50px;
+  height: 50px;
+  position: relative;
+  overflow: hidden;
+  left: 52px;
+  top: 23px;
+  z-index: 0;
+}
+.imgHeader img{
+  width: 100%;
+
 }
 
 .input-content {
@@ -49,13 +81,32 @@ body {
 }
 
 .button-login {
-  border: 2px solid #1a1e31;
+  border: 2px solid #854c1d70;
+  background-color: #f18a36;
+  color: rgb(255, 255, 255);
   height: 35px;
   width: 100px;
   border-radius: 10px;
   cursor: pointer;
   margin: 25px;
 }
+.button-login-disable {
+  border: 2px solid #854c1d70;
+  background-color: #d67d348e;
+  color: rgba(255, 255, 255, 0.507);
+  height: 35px;
+  width: 100px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 25px;
+}
+
+.login-container input{
+  background-color: #e9e9e9;
+  border: 1px solid #b9b9b9;
+  box-shadow: 2px 2px 5px rgba(156, 156, 156, 0.568);
+}
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -425,7 +476,7 @@ code {
 
 header{
   width: 100%;
-  background-color: rgb(151, 147, 140);
+  background-color: #f18a36;
   display: flex;
   align-items: center;
  
@@ -462,7 +513,7 @@ header{
 }
 
 .containerCategory{
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(236, 236, 236);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -497,6 +548,8 @@ header{
   font-weight: bold;
   font-size: 25px;
   margin: 0px;
+  color: white;
+  text-shadow: 2px 2px 5px black;
 }
 
 #searchInput{
@@ -505,7 +558,7 @@ header{
 }
 
 .SearchBar{
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(238, 238, 238);
   padding: 5px;
 }
 .SearchBar button{
@@ -546,7 +599,7 @@ header{
 
 .footer{
   width: 100% !important;
-  background-color: rgb(151, 147, 140);
+  background-color: #f18a36;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -569,16 +622,22 @@ header{
 /* foods list */
 
 .divCards {
-  background-color: yellowgreen;
+  background-color: rgb(238, 238, 238);
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  
+}
+.divCards img {
+  box-shadow: 2px 2px 10px rgba(37, 26, 12, 0.651);
 }
 
 .recipe-card {
   margin-top: 20px;
   text-align: center;
   width: 150px;
+  color: #381900;
+  font-weight: 600;
 }
 
 .recipe-card img {

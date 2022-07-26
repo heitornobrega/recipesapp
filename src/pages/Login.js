@@ -26,44 +26,48 @@ function Login() {
       ...user,
       [name]: value,
     });
-    // verifica();
   };
 
   return (
-    <div className="login-container">
-      <h1>Login</h1>
-      <form onSubmit={ () => handleSubmit(user) }>
-        <label htmlFor="email">
-          <input
-            className="input-content"
-            type="email"
-            name="email"
-            id="email"
-            onChange={ handleChange }
-            data-testid="email-input"
-          />
-        </label>
-        <label htmlFor="password">
-          <input
-            className="input-content"
-            type="password"
-            name="password"
-            id="password"
-            onChange={ handleChange }
-            data-testid="password-input"
-          />
-        </label>
-        <button
-          className="button-login"
-          type="submit"
-          data-testid="login-submit-btn"
-          disabled={ disable }
-        >
-          Enter
+    <section className="container">
+      <div className="login-container">
+        <span className="imgHeader">
+          <img src="https://i.pinimg.com/originals/07/3e/55/073e55a7924f96e0bd855614ca1b0746.png" alt="" />
+        </span>
+        <h1>Login</h1>
+        <form onSubmit={ () => handleSubmit(user) }>
+          <label htmlFor="email">
+            <input
+              className="input-content"
+              type="email"
+              name="email"
+              id="email"
+              onChange={ handleChange }
+              data-testid="email-input"
+            />
+          </label>
+          <label htmlFor="password">
+            <input
+              className="input-content"
+              type="password"
+              name="password"
+              id="password"
+              onChange={ handleChange }
+              data-testid="password-input"
+            />
+          </label>
+          <button
+            className={ disable ? 'button-login-disable' : 'button-login' }
+            type="submit"
+            data-testid="login-submit-btn"
+            disabled={ disable }
+          >
+            Enter
 
-        </button>
-      </form>
-    </div>
+          </button>
+        </form>
+      </div>
+    </section>
   );
 }
 
