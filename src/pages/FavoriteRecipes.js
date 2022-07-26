@@ -10,7 +10,7 @@ function Favorite() {
 
   const getArrayRecipes = () => {
     if (favoriteList.length === 0 || favoriteList === null) {
-      return <p>Nenhuma receita!</p>;
+      return <p className="nenhumaReceita">Nenhuma receita!</p>;
     }
     if (filterBtn === 'all') {
       return (favoriteList.map((element, index) => (

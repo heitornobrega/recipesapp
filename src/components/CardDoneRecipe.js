@@ -26,41 +26,67 @@ function CardDoneRecipe({
   };
 
   return (
-    <div>
-      <Link key={ id } to={ `/${type}s/${id}` }>
+    <div className="containerDone">
+      <div className="imgAndElements">
+        <div className="containerImgDone">
+          <Link key={ id } to={ `/${type}s/${id}` }>
+            <img
+              data-testid={ `${index}-horizontal-image` }
+              src={ image }
+              alt={ `recipe-done-${index}` }
+              className="imgMenorDone"
+            />
+          </Link>
+        </div>
         <div>
-          <img
-            data-testid={ `${index}-horizontal-image` }
-            src={ image }
-            alt={ `recipe-done-${index}` }
-            className="imgMenor"
-          />
-          <p data-testid={ `${index}-horizontal-top-text` }>
+          <p
+            className="nationalityCategory"
+            data-testid={ `${index}-horizontal-top-text` }
+          >
             { `${recipeType} - ${category}` }
           </p>
           <h3 data-testid={ `${index}-horizontal-name` }>
             { name }
           </h3>
-          <p data-testid={ `${index}-horizontal-done-date` }>
-            { doneDate }
-          </p>
+          <div className="dataEShareContainer">
+
+            <p
+              data-testid={ `${index}-horizontal-done-date` }
+
+            >
+              { doneDate }
+            </p>
+            <div className="shareBtnDone">
+              <input
+                data-testid={ `${index}-horizontal-share-btn` }
+                type="image"
+                onClick={ copyLink }
+                src={ shareIcon }
+                alt={ shareIcon }
+              />
+
+              {copyConditional && <p
+                className="LinkCopiado favoriteRecipesCopy linkCopiedDone"
+              >
+                Link copied!
+
+              </p>}
+            </div>
+
+          </div>
+
           {
             tags.map((tag, i) => (
-              <span key={ i } data-testid={ `${index}-${tag}-horizontal-tag` }>
+              <span key={ i } data-testid={ `${i}-${tag}-horizontal-tag` }>
                 { tag }
               </span>
             ))
           }
+
         </div>
-      </Link>
-      <input
-        data-testid={ `${index}-horizontal-share-btn` }
-        type="image"
-        onClick={ copyLink }
-        src={ shareIcon }
-        alt={ shareIcon }
-      />
-      { copyConditional && <p>Link copied!</p>}
+
+      </div>
+
     </div>
   );
 }

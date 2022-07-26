@@ -583,4 +583,85 @@ header{
 
 .recipe-card img {
   border-radius: 10px;
+
 }
+
+#ingredientesTitulo {
+  font-style: italic;
+font-weight: 600;
+margin-left: 5px;
+margin-top: 15px;
+}
+.instrucoes ul{
+  line-height: 25px;
+  font-size: 18px;
+  background-color: rgb(224, 224, 224);
+  padding: 8px;
+  width: calc(100% - 20px);
+  margin: auto;
+  list-style: none;
+  }
+  .intrucoesMargin{
+    margin-bottom: 85px;
+  }
+  .finishBtn{
+    background-color: rgb(202,144,56);
+  }
+  .nenhumaReceita{
+    margin-top: 200px;
+    text-align: center;
+  }
+  .containerDone{
+    display: flex;
+     width: 330px;
+     height: 150px;
+    margin: auto;
+    border-radius: 8px;
+box-shadow: 1px 2px 8px rgba(0,0,0,0.65); 
+    overflow: hidden;
+    margin-top: 15px;
+  }
+  .containerDone h3 {
+    font-size: 25px;
+    font-weight: 600;
+    width: 150px;
+    height: 25px;
+    overflow: hidden;
+  }
+  .imgAndElements{
+    display: flex;
+  }
+  .containerDone p{
+    margin:0px;
+    padding: 0px;
+
+  }
+  .nationalityCategory{
+    margin: 4px 6px;
+  }
+  .containerImgDone{
+    margin-right: 3px;
+    width: 150px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .shareBtnDone{
+    position: relative;
+    top: 0;
+  } 
+  .dataEShareContainer{
+    display: flex;
+  }
+  .imgMenorDone{
+    width: 100%;
+  }
+  .dataEShareContainer p{
+    margin-right: 30px;
+  }
+  .linkCopiedDone{
+    top: 15px;
+    right: -25px;
+  }
+

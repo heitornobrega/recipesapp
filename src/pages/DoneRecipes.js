@@ -9,7 +9,7 @@ function DoneRecipes() {
 
   const getArrayRecipes = () => {
     if (doneRecipes.length === 0 || doneRecipes === null) {
-      return <p>Nenhuma receita!</p>;
+      return <p className="nenhumaReceita">Nenhuma receita!</p>;
     }
     if (filterBtn === 'all') {
       return (doneRecipes.map((element, index) => (
@@ -49,29 +49,32 @@ function DoneRecipes() {
   return (
     <>
       <Header title="Done Recipes" isTrue={ false } />
-      <button
-        type="button"
-        data-testid="filter-by-all-btn"
-        onClick={ () => setFilterBtn('all') }
-      >
-        All
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-food-btn"
-        onClick={ () => setFilterBtn('food') }
-      >
-        Food
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-drink-btn"
-        onClick={ () => setFilterBtn('drink') }
-      >
-        Drinks
-      </button>
-      <div>
-        { getArrayRecipes() }
+      <div className="containerBtnFavorites">
+
+        <button
+          type="button"
+          data-testid="filter-by-all-btn"
+          onClick={ () => setFilterBtn('all') }
+        >
+          All
+        </button>
+        <button
+          type="button"
+          data-testid="filter-by-food-btn"
+          onClick={ () => setFilterBtn('food') }
+        >
+          Food
+        </button>
+        <button
+          type="button"
+          data-testid="filter-by-drink-btn"
+          onClick={ () => setFilterBtn('drink') }
+        >
+          Drinks
+        </button>
+        <div>
+          { getArrayRecipes() }
+        </div>
       </div>
     </>
   );
